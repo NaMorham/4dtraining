@@ -1,0 +1,45 @@
+Project	NoTable	_a	
+Project	NoTable	_DumpMethods	
+Database	NoTable	onExit	
+Database	NoTable	onStartup	
+Form	NoTable	MainForm	
+Form	NoTable	MainForm	Employees_Btn
+Form	NoTable	MainForm	Meetings_Btn
+Form	NoTable	Welcome	
+Form	NoTable	Welcome	BtnEmployees
+Form	NoTable	Welcome	BtnMeetings
+Form	NoTable	Welcome	DumpMethods_Btn
+Form	NoTable	Welcome	ImportEmployees_Btn
+Form	NoTable	Welcome	testFuncs_Btn
+Form	Attendees	GeneratedInput	vRecNum
+Form	Employee	GeneratedInput	
+Form	Employee	GeneratedInput	vRecNum
+Form	Employee	list-employees	bOrderBy
+Form	Employee	list-employees	bQuery
+Form	Employee	list-employees	bReport
+Form	Employee	list-employees	bShowAll
+Form	Employee	list-employees	ImportEmployee_Btn
+Form	Employee	test-input	
+Form	Employee	test-input	vRecNum
+Form	Hobby	GeneratedInput	vRecNum
+Form	Meeting	GeneratedInput	vRecNum
+Trigger	Employee		
+Project	NoTable	Bool_isEmployed	
+Project	NoTable	Bool_isManager	
+Project	NoTable	Compiler_MCSU	
+Project	NoTable	DebugLog	
+Project	NoTable	EMP_ImportFromCSV	
+Project	NoTable	EVT_Meetings	
+Project	NoTable	EVT_SelectEmployees	
+Project	NoTable	HOST_MCSU_DICT_GetPointer	
+Project	NoTable	HOST_MCSU_SYS_GetDBParam_S	
+Project	NoTable	HOST_MCSU_SYS_SetDBParam_S	
+Project	NoTable	INIT_Globals	
+Project	NoTable	QueryManagers	
+Project	NoTable	QuitNow	
+Project	NoTable	RandomRange	
+Project	NoTable	ReverseDateStringToDate	
+Project	NoTable	Startup	
+Project	NoTable	String_EmployeeArrayShort	
+Project	NoTable	StringBeginsWith	
+Project	NoTable	Welcome	
