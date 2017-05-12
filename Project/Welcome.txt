@@ -1,1 +1,1 @@
-//%attributes = {"lang":"en"} comment added and reserved by 4D.$WelcomeDialogID:=Open form window("Welcome")DIALOG("Welcome")CLOSE WINDOW($WelcomeDialogID)
+//%attributes = {"lang":"en"} comment added and reserved by 4D.DebugLog ("\n\nShow Welcome Dialog")$WelcomeDialogID:=Open form window("Welcome")DIALOG("Welcome")CLOSE WINDOW($WelcomeDialogID)

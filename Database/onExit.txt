@@ -1,1 +1,1 @@
-//%attributes = {"lang":"en"} comment added and reserved by 4D.ALERT("Quit now")
+//%attributes = {"lang":"en"} comment added and reserved by 4D.DebugLog ("Exiting 4D ["+String(Current date)+" "+String(Current time)+"]\n\n")
