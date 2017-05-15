@@ -162,7 +162,7 @@ set -u -o pipefail
 
 function usage()
 {
-    errEcho "${bold}Usage:${normal} $(basename "${BASH_SOURCE[0]}") [trainingDB export path]"
+    errEcho "${bold}Usage:${normal} $(basename "${BASH_SOURCE[0]}") [trainingDB export path] [--test-only]"
 }
 
 localDir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
@@ -231,10 +231,11 @@ find "$trainingDBPath" -type f | while read infile; do
 done
 
 find . -type f -name "*.txt" | while read fl; do
-    srcname="$(sed -r "s@^\./@../${trainingDBPath}/@g" <<< "$fl")"
+    srcname="$(sed -r "s@^\./@${trainingDBPath}/@g" <<< "$fl")"
     dbgVar fl srcname
     if [[ ! -f $srcname ]]; then
-        echo "git rm \"$fl\" || die \"Failed to remove deleted file [$fl] from git\""
+        #echo "git rm \"$fl\" || die \"Failed to remove deleted file [$fl] from git\""
+        git rm "$fl" || die "Failed to remove deleted file [$fl] from git"
     fi
 done
 
