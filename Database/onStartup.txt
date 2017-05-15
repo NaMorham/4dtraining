@@ -1,1 +1,1 @@
-//%attributes = {"lang":"en"} comment added and reserved by 4D.Startup 
+//%attributes = {"lang":"en"} comment added and reserved by 4D.//If (OK#1)//DebugLog ("Startup called, OK is not 1 ["+String(OK)+"]")//OK:=1//End if Startup 

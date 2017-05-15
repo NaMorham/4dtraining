@@ -203,14 +203,16 @@ fi
 
 traceEcho "Process"
 
+git status || die "COuld not run [git status]"
+
 find "$trainingDBPath" -type f | while read infile; do
     inmd5="$(md5sum "$infile" | cut -d ' ' -f 1 || die "Cannot calculte md5sum for file[$infile]")"
     dbgVar infile inmd5
     outfile="$(sed -r "s@^${trainingDBPath}/@./@" <<< $infile)"
-    outmd5="$(md5sum "$outfile" | cut -d ' ' -f 1)"
-    dbgVar outfile outmd5
 
     if [[ -f $outfile ]]; then
+        outmd5="$(md5sum "$outfile" | cut -d ' ' -f 1)"
+        dbgVar outfile outmd5
         # outfile exists, check md5's
         if [[ $inmd5 == $outmd5 ]]; then
             # md5 sums are the same, report it and carry on
@@ -218,12 +220,27 @@ find "$trainingDBPath" -type f | while read infile; do
             continue
         else
             cp -pv "$infile" "$outfile" || die "Failed to copy modified file [$infile]"
+            git add "$outfile" || die "Could not add updated file [$outfile] to git"
         fi
     else
+        dbgVar outfile
         # outfile does not exist, copy it
         cp -pv "$infile" "$outfile" || die "Failed copying new file [$infile]"
+        git add "$outfile" || die "Could not add new file [$outfile] to git"
     fi
 done
+
+find . -type f -name "*.txt" | while read fl; do
+    srcname="$(sed -r "s@^\./@../${trainingDBPath}/@g" <<< "$fl")"
+    dbgVar fl srcname
+    if [[ ! -f $srcname ]]; then
+        echo "git rm \"$fl\" || die \"Failed to remove deleted file [$fl] from git\""
+    fi
+done
+
+echo
+git status || die "Could not get git status"
+echo
 
 traceEcho "${bold}${green}DONE.${normal}"
 

@@ -4,6 +4,7 @@ Database	NoTable	onExit
 Database	NoTable	onStartup	
 Form	NoTable	MainForm	
 Form	NoTable	MainForm	Employees_Btn
+Form	NoTable	MainForm	EmployeeSubform
 Form	NoTable	MainForm	Meetings_Btn
 Form	NoTable	Welcome	
 Form	NoTable	Welcome	BtnEmployees
@@ -21,6 +22,9 @@ Form	Employee	list-employees	bReport
 Form	Employee	list-employees	bShowAll
 Form	Employee	list-employees	ImportEmployee_Btn
 Form	Employee	test-input	
+Form	Employee	test-input	inputManagers_PU
+Form	Employee	test-input	nextRecord_Btn
+Form	Employee	test-input	StartDate
 Form	Employee	test-input	vRecNum
 Form	Hobby	GeneratedInput	vRecNum
 Form	Meeting	GeneratedInput	vRecNum

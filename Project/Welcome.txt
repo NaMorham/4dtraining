@@ -1,1 +1,1 @@
-//%attributes = {"lang":"en"} comment added and reserved by 4D.DebugLog ("\n\nShow Welcome Dialog")$WelcomeDialogID:=Open form window("Welcome")DIALOG("Welcome")CLOSE WINDOW($WelcomeDialogID)
+//%attributes = {"lang":"en"} comment added and reserved by 4D.DebugLog ("\n\nShow Welcome Dialog")//If (OK#1)//DebugLog ("How the fuck is OK already set to 0?")//OK:=1//End ifALL RECORDS([Employee])ALL RECORDS([Meeting])ALL RECORDS([Attendees])ALL RECORDS([Hobby])]$WelcomeDialogID:=Open form window("Welcome")DIALOG("Welcome")CLOSE WINDOW($WelcomeDialogID)
