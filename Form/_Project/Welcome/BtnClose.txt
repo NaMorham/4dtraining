@@ -1,1 +1,0 @@
-//%attributes = {"lang":"en"} comment added and reserved by 4D.//Project Method: Welcome.BtnClose////   Parameter        Type             Description////Description://   ////Date        Init  Description//===============================================================================//15/05/2017   AH   Initial version.<>vB_bg_continue:=FalseCANCEL

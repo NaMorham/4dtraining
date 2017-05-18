@@ -1,0 +1,1 @@
+//%attributes = {"lang":"en"} comment added and reserved by 4D.//Project Method: test_catch////   Parameter        Type             Description////Description://   ////Date        Init  Description//===============================================================================//16/05/2017   AH   Initial version.Ok:=0ALERT("test")
