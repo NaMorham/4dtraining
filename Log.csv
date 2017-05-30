@@ -1,17 +1,24 @@
 Project	NoTable	__MeetingsHostedByEmployee	
+Project	NoTable	__test_catch	
 Project	NoTable	__test_timer	
 Project	NoTable	_DumpMethods	
 Project	NoTable	_RestoreEmloyees	
 Project	NoTable	_RestoreMeetings	
 Database	NoTable	onExit	
 Database	NoTable	onStartup	
+Form	NoTable	GetDate	
 Form	NoTable	GetDate	GateDate_Datepicker
 Form	NoTable	GetDate	GetDate_TimePicker
 Form	NoTable	MainForm	
-Form	NoTable	MainForm	Employees_Btn
-Form	NoTable	MainForm	Meetings_Btn
+Form	NoTable	MainForm	meetingsList_LB
+Form	NoTable	SelectAttendeesForm	
+Form	NoTable	Utilities	
 Form	NoTable	Welcome	
 Form	Attendees	GeneratedInput	vRecNum
+Form	Employee	EmployeeDetail	
+Form	Employee	EmployeeDetail	inputManagers_PU
+Form	Employee	EmployeeDetail	recNum_Lbl
+Form	Employee	EmployeeDetail	StartDate
 Form	Employee	GeneratedInput	
 Form	Employee	GeneratedInput	vRecNum
 Form	Employee	list-employees	bOrderBy
@@ -28,16 +35,25 @@ Form	Hobby	GeneratedInput	vRecNum
 Form	Meeting	GeneratedInput	
 Form	Meeting	GeneratedInput	meetingEmpID_PU
 Form	Meeting	GeneratedInput	vRecNum
+Form	Meeting	MeetingDetail	
+Form	Meeting	MeetingDetail	inputConvenors_PU
+Form	Meeting	MeetingDetail	mtgRecNum_Lbl
 Trigger	Employee		
+Project	NoTable	ATND_PopulateArrays	
 Project	NoTable	Bool_isEmployed	
 Project	NoTable	Bool_isManager	
 Project	NoTable	Compiler_MCSU	
+Project	NoTable	CountMeetingAttendees	
 Project	NoTable	DBG_BeginMethod	
 Project	NoTable	DBG_EndMethod	
-Project	NoTable	DebugLog	
+Project	NoTable	DBG_Log	
+Project	NoTable	DBG_TestMethod	
 Project	NoTable	EMP_ImportFromCSV	
+Project	NoTable	EMP_ShowDetailForm	
 Project	NoTable	EVT_ShowEmployees	
 Project	NoTable	EVT_ShowMeetings	
+Project	NoTable	FileToText	
+Project	NoTable	GetLockedDetails	
 Project	NoTable	gSQL	
 Project	NoTable	HOST_MCSU_DICT_GetPointer	
 Project	NoTable	HOST_MCSU_SYS_GetDBParam_S	
@@ -45,16 +61,16 @@ Project	NoTable	HOST_MCSU_SYS_SetDBParam_S
 Project	NoTable	INIT_Globals	
 Project	NoTable	LBL_AlignAndPopulateObject	
 Project	NoTable	MAINFRM_PopulateEmplolyeesList	
-Project	NoTable	MAINFRM_ShowForm	
+Project	NoTable	MTG_ShowDetailForm	
 Project	NoTable	QuitNow	
 Project	NoTable	RandomRange	
 Project	NoTable	ReverseDateStringToDate	
+Project	NoTable	ShowMainForm	
+Project	NoTable	ShowUtilsDialog	
+Project	NoTable	ShowWelcomeDialog	
 Project	NoTable	Startup	
 Project	NoTable	String_BoolEnableDisable	
 Project	NoTable	String_ShortEmployeeFromArray	
 Project	NoTable	String_ShortEmployeeFromSelect	
 Project	NoTable	String_ShortEmployeeFromUUID	
 Project	NoTable	StringBeginsWith	
-Project	NoTable	test_catch	
-Project	NoTable	Welcome	
-Project	NoTable	WLCM_TestMethod	
