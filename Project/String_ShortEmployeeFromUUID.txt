@@ -6,7 +6,7 @@
   //    vT_result       Text       ->    Uppercase(Surname),firstname,mobile
   //
   //Description:
-  //   
+  //  
   //
   //Date        Init  Description
   //===============================================================================
@@ -25,13 +25,13 @@ If (OK=1)
 	QUERY([Employee];[Employee]ID=$vT_UUID)
 	If ((OK=1) & (Records in selection([Employee])>0))
 		$vT_result:=Uppercase([Employee]Surname)+","+[Employee]FirstName+","+[Employee]Mobile
-	Else 
+	Else
 		DBG_Log ("No employee found with UUID matching ["+$vT_UUID+"]")
-	End if 
+	End if
 	  // restore the previous selection
-Else 
+Else
 	DBG_Log ("Could not create employees set [Tmp1 Current Selection]")
-End if 
+End if
 USE SET("Tmp1 Current Selection")
 
 $0:=$vT_result

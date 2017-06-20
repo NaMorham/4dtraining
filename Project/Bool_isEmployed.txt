@@ -8,7 +8,7 @@
   //Description:
   //  Returns True if an Employee has started (StartDate <= Current Date) and they
   // have not already left (EndDate == !00/00/0000! || EndDate > CurrentDate)
-  //   
+  //  
   //
   //Date        Init  Description
   //===============================================================================
@@ -24,18 +24,18 @@ $vT_employeeId:=$1
 If ((Length($vT_employeeId)#32) & (Length($vT_employeeId)#36))
 	DBG_Log ("Attempt to check employment with invalid ID")
 	$vB_result:=False
-Else 
+Else
 	QUERY([Employee];[Employee]ID=$vT_employeeId)
 	If (Records in selection([Employee])#1)
 		  // Check start date
 		$vB_result:=([Employee]StartDate>=Current date)
 		  // Check end date
 		$vB_result:=($vB_result & ([Employee]EndDate#!00-00-00!) & ([Employee]EndDate>Current date))
-	Else 
+	Else
 		  // no records
 		DBG_Log ("No employee found with id ["+$vT_employeeId+"[")
 		$vB_result:=False
-	End if 
-End if 
+	End if
+End if
 
 $0:=$vB_result

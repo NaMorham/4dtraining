@@ -4,7 +4,7 @@
   //   Parameter        Type             Description
   //
   //Description:
-  //   
+  //  
   //
   //Date        Init  Description
   //===============================================================================
@@ -18,7 +18,7 @@ $vL_numParams:=Count parameters
 For ($vL_index;1;$vL_numParams)
 	$vL_typeNum:=Type(${$vL_index})
 	DBG_Log ("Param ["+String($vL_index)+"] is type ["+String($vL_typeNum)+"]")
-End for 
+End for
 
 
 C_OBJECT($vO_testObject)
@@ -26,4 +26,4 @@ $vO_testObject:=Get locked records info([Meeting])
 
 DBG_Log (JSON Stringify($vO_testObject))
 
-DBG_EndMethod 
+DBG_EndMethod

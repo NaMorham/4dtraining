@@ -6,7 +6,7 @@
   //                                     create a new meeting
   //
   //Description:
-  //   
+  //  
   //
   //Date        Init  Description
   //===============================================================================
@@ -17,44 +17,44 @@ DBG_BeginMethod (Current method name)
 C_TEXT($1;$vT_mtgID)
 $vT_mtgID:=""
 
-Case of 
+Case of
 	: (Count parameters<1)
 	: ($1="")
 		  // Do nothing - new meeting
-		
-	Else 
+	
+	Else
 		$vT_mtgID:=$1
-End case 
+End case
 
 If (<>vL_editMeetingFormProcID<1)
 	<>vL_editMeetingFormProcID:=New process("ShowMeetingDetailForm";32*1024;"MeetingDetail";$vT_mtgID)
-Else 
+Else
 	If (Type(vT_meetingUUID)=Is undefined)
 		C_TEXT(vT_meetingUUID)
-	End if 
-	
+	End if
+
 	C_BOOLEAN($vB_continue;$vB_newMeeting)
 	$vB_continue:=True
 	$vB_newMeeting:=True
-	
+
 	If ($vT_mtgID#"")
 		$vB_newMeeting:=False
-	Else 
-	End if 
-	
+	Else
+	End if
+
 	If ($vB_newMeeting)
 		DBG_Log ("Create new meeting")
-	Else 
+	Else
 		QUERY([Meeting];[Meeting]ID=$vT_mtgID)
 		If (OK#1)
 			DBG_Log ("Cannot query for a meeting with ID ["+$vT_mtgID+"]")
 			$vB_continue:=False
-		Else 
+		Else
 			DBG_Log ("Found existing meeting with ID ["+[Meeting]ID+"]")
-		End if 
+		End if
 		  //UNLOAD RECORD([Meeting])
-	End if 
-	
+	End if
+
 	If ($vB_continue)
 		vT_meetingUUID:=$vT_mtgID
 		If (<>vL_editMeetingFormID<1)
@@ -63,18 +63,18 @@ Else
 			CLOSE WINDOW(<>vL_editMeetingFormID)
 			<>vL_editMeetingFormID:=-1
 			<>vL_editMeetingFormProcID:=-1
-		Else 
+		Else
 			If (<>vL_editMeetingFormProcID>=1)
 				BRING TO FRONT(<>vL_editMeetingFormProcID)
 				REDRAW WINDOW(<>vL_editMeetingFormID)
-			Else 
+			Else
 				DBG_Log ("No valid process ID for MeetingDetail window")
 				$vB_continue:=False
-			End if 
-		End if 
-	Else 
+			End if
+		End if
+	Else
 		DBG_Log ("Could not process meeting detail window")
-	End if 
-End if 
+	End if
+End if
 
-DBG_EndMethod 
+DBG_EndMethod

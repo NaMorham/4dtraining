@@ -4,7 +4,7 @@
   //   Parameter        Type             Description
   //
   //Description:
-  //   
+  //  
   //
   //Date        Init  Description
   //===============================================================================
@@ -14,4 +14,4 @@ DBG_BeginMethod (Current method name;True)
 
 DBG_Log ("TODO: Actually set date info")
 
-DBG_EndMethod 
+DBG_EndMethod

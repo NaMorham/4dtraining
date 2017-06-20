@@ -4,7 +4,7 @@
   //   Parameter        Type             Description
   //
   //Description:
-  //   
+  //  
   //
   //Date        Init  Description
   //===============================================================================
@@ -29,17 +29,17 @@ $vB_continue:=False
 
 ARRAY TEXT($aT_empty;0)
 
-Case of 
+Case of
 	: (Count parameters<4)
 		DBG_Log ("Too few parameters passed to populate attendee lists")
-		
+	
 	: (Nil($1) | Nil($2))
 		DBG_Log ("One or more of the array pointers are Nil")
-		
-	Else 
+	
+	Else
 		$vB_continue:=True
-		
-End case 
+	
+End case
 
 $vP_aT_uuids:=$1
 $vP_aT_displayNames:=$2
@@ -48,31 +48,31 @@ $vT_host:=$4
 
 If (Count parameters>=5)
 	$vP_aT_selectedEmployees:=$5
-Else 
+Else
 	$vP_aT_selectedEmployees:=->$aT_empty
-End if 
+End if
 
 If (Count parameters>=6)
 	$vP_aT_speekingEmployees:=$6
-Else 
+Else
 	$vP_aT_speekingEmployees:=->$aT_empty
-End if 
+End if
 
 If ($vB_continue)
 	CREATE SET([Employee];"Current employee selection")
 	QUERY([Employee];[Employee]ID#$vT_host)
-	
+
 	If (OK=1)
 		While (Not(End selection([Employee])))
-			
+		
 			NEXT RECORD([Employee])
-		End while 
-	Else 
+		End while
+	Else
 		DBG_Log ("Could not query for employees excluding the host ["+$vT_host+"]")
 		$vB_continue:=False
-	End if 
-	
-	USE SET("Current employee selection")
-End if 
+	End if
 
-DBG_EndMethod 
+	USE SET("Current employee selection")
+End if
+
+DBG_EndMethod

@@ -3,7 +3,7 @@
   //
   //   Parameter        Type             Description
   //    $vT_methodName  Text      <-     The method name to display
-  //    $vB_showEvent   Boolean   <-     Flag to indicate the even should be listed 
+  //    $vB_showEvent   Boolean   <-     Flag to indicate the even should be listed
   //
   //Description:
   //   Print an entry log message and add the method name to the stack for this
@@ -18,23 +18,23 @@ C_BOOLEAN($2;$vB_showEvent)
 
 If (Count parameters>=1)
 	$vT_methodName:=$1
-	
+
 Else   // sanity check until I can figure out how to access the call stack
 	$vT_methodName:="unk method"
-	
-End if 
+
+End if
 
 If (Count parameters>1)
 	$vB_showEvent:=$2
 	If ($vB_showEvent)
 		$vT_methodName:=$vT_methodName+" ("+String_GetEventString +")"
-	End if 
-	
-End if 
+	End if
+
+End if
 
 If (Type(aT_callStack)=Is undefined)
 	ARRAY TEXT(aT_callStack;0)
-End if 
+End if
 
 APPEND TO ARRAY(aT_callStack;$vT_methodName)
 DBG_Log ("Begin method")

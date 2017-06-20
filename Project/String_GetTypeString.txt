@@ -4,7 +4,7 @@
   //   Parameter        Type             Description
   //
   //Description:
-  //   
+  //  
   //
   //Date        Init  Description
   //===============================================================================
@@ -19,19 +19,19 @@ C_LONGINT($1;$vL_type)
 
 If (Count parameters>=1)
 	$vL_type:=$1
-	
-	
+
+
 	C_LONGINT($vL_index)
 	$vL_index:=Find in array(<>aL_typeValues;$vL_type)
-	
+
 	If ($vL_index=-1)  // didn't find it
 		$vT_typeText:=String($vL_type)+":UNKNOWN TYPE"
-	Else 
+	Else
 		$vT_typeText:=<>aT_typeNames{$vL_index}
-	End if 
-	
-End if 
+	End if
+
+End if
 
 $0:=$vT_typeText
 
-  //DBG_EndMethod 
+  //DBG_EndMethod

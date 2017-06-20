@@ -23,19 +23,19 @@ $vT_TextBuffer:=""
   // Try and actually verify and read the file before anythng else
 If (Test path name($vT_filename)#Is a document)
 	ALERT("Import path ["+$vT_filename+"] does not resolve to a file")
-	
-Else 
+
+Else
 	$vT_TextBuffer:=Document to text($vT_filename)
-	
+
 	  // Preserve current selection
 	CREATE SET([Employee];"Current Selection")
-	
+
 	  // Fix up stupid line endings <--- Grr Windows
 	$vT_TextBuffer:=Replace string($vT_TextBuffer;"\r\n";"\n";*)
 	$vT_TextBuffer:=Replace string($vT_TextBuffer;"\r";"\n";*)
-	
-End if 
+
+End if
 
 $0:=$vT_TextBuffer
 
-DBG_EndMethod 
+DBG_EndMethod

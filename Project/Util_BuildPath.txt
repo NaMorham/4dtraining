@@ -23,29 +23,45 @@ C_LONGINT($vL_index;$vL_numTokens)
 $vL_numTokens:=Count parameters
 $vT_path:=""
 If ($vL_numTokens>=1)
-	$vL_index:=Position("http";$1)
-	If ($vL_index=1)
+	If (String_BeginsWith ($1;"http") | String_BeginsWith ($1;"ftp"))
 		  // web path? probably
 		$vT_separator:="/"
-	Else 
+	Else
 		$vT_separator:=Folder separator
-	End if 
-	
-	
+	End if
+
+	C_BOOLEAN($vB_skip)
 	For ($vL_index;1;$vL_numTokens)
 		$vT_Token:=${$vL_index}
+		$vB_skip:=False
 		DBG_Log ("Token ["+String($vL_index)+"/"+String($vL_numTokens)+"] -> ["+$vT_Token+"]")
-		If ($vL_index=1 | (($vL_index>1) & ($vT_Token#$vT_separator)))
+		  // strip of leading separators, unless this is the first token
+		Case of
+			: (Length($vT_Token)=0)  // nothing to do
+			: ($vL_index=1)  // allowed
+			: ($vT_Token=$vT_separator)  // handled later
+			Else
+				If (String_BeginsWith ($vT_Token;$vT_separator))
+					$vT_Token:=MCSU_WRAP_Substring ($vT_Token;Length($vT_separator)+1)
+				End if
+		End case
+		  // Ignore empty tokens
+		If (Length($vT_Token)<1)
+			$vB_skip:=True
+		End if
+		  // add the data
+		If (Not($vB_skip) & (($vL_index=1) | (($vL_index>1) & ($vT_Token#$vT_separator))))
 			$vT_path:=$vT_path+$vT_Token
-		End if 
-		If (($vT_path[[Length($vT_path)]]#$vT_separator) & ($vL_index#$vL_numTokens))
+		End if
+		  // add the separator if required
+		If (Not($vB_skip) & ($vT_path[[Length($vT_path)]]#$vT_separator) & ($vL_index#$vL_numTokens))
 			$vT_path:=$vT_path+$vT_separator
-		End if 
+		End if
 		DBG_Log ("Path == ["+$vT_path+"]")
-	End for 
-	
-End if 
+	End for
+
+End if
 
 $0:=$vT_path
 
-DBG_EndMethod 
+DBG_EndMethod

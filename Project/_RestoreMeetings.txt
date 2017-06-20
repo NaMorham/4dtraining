@@ -6,7 +6,7 @@
   //Description:
   //   Assumes that some kind of check has been performed before calling this
   // function.  This will delete all meetings from the database
-  //   
+  //  
   //
   //Date        Init  Description
   //===============================================================================
@@ -22,8 +22,8 @@ $vL_numMeetings:=Records in selection([Meeting])
 If ($vL_numMeetings#0)
 	TRUNCATE TABLE([Meeting])
 	DBG_Log ("Removed ["+String($vL_numMeetings)+"] meetings")
-Else 
+Else
 	DBG_Log ("No meetings to remove")
-End if 
+End if
 
-DBG_EndMethod 
+DBG_EndMethod

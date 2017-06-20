@@ -4,7 +4,7 @@
   //   Parameter        Type             Description
   //
   //Description:
-  //   
+  //  
   //
   //Date        Init  Description
   //===============================================================================
@@ -18,36 +18,36 @@ $vT_mtgID:=""
 C_BOOLEAN($vB_continue)
 $vB_continue:=False
 
-Case of 
+Case of
 	: (Count parameters<1)
 	: ($1="")
 		  // Do nothing - new meeting
-		
-	Else 
+	
+	Else
 		$vT_mtgID:=$1
 		$vB_continue:=True
-End case 
+End case
 
 If ($vB_continue)
 	If (<>vL_attendeeSelectionFormProcID<1)
 		  // we need to create (and register - todo) the new process
 		<>vL_attendeeSelectionFormProcID:=New process("ShowAttendeeSelectionForm";32*1024*1024;"SelectAttendeesForm";$vT_mtgID)
-		
-	Else 
+	
+	Else
 		QUERY([Meeting];[Meeting]ID=$vT_mtgID)
 		If (OK#1)
 			DBG_Log ("Cannot query for a meeting with ID ["+$vT_mtgID+"]")
 			$vB_continue:=False
-		Else 
+		Else
 			DBG_Log ("Found existing meeting with ID ["+[Meeting]ID+"]")
-		End if 
-		
+		End if
+	
 		If ($vB_continue)
 			If (Type(vT_meetingUUID)=Is undefined)
 				C_TEXT(vT_meetingUUID)
-			End if 
+			End if
 			vT_meetingUUID:=$vT_mtgID
-			
+		
 			If (<>vL_attendeeSelectionFormID<1)
 				<>vL_attendeeSelectionFormID:=Open form window("SelectAttendeesForm";Movable form dialog box)
 				DIALOG("SelectAttendeesForm")
@@ -55,24 +55,24 @@ If ($vB_continue)
 				<>vL_attendeeSelectionFormID:=-1
 				<>vL_attendeeSelectionFormProcID:=-1
 				REDRAW WINDOW(<>vL_mainFormID)
-				
-			Else 
+			
+			Else
 				If (<>vL_attendeeSelectionFormProcID>=1)
 					BRING TO FRONT(<>vL_attendeeSelectionFormProcID)
 					REDRAW WINDOW(<>vL_attendeeSelectionFormID)
-				Else 
+				Else
 					DBG_Log ("No valid process ID for Attendee selection window")
 					$vB_continue:=False
-				End if 
-			End if 
-		Else 
+				End if
+			End if
+		Else
 			DBG_Log ("Could not process Attendee selection window")
-		End if 
-		
-	End if 
+		End if
 	
-Else 
-	DBG_Log ("No meeting selected for Attendee selection")
-End if 
+	End if
 
-DBG_EndMethod 
+Else
+	DBG_Log ("No meeting selected for Attendee selection")
+End if
+
+DBG_EndMethod

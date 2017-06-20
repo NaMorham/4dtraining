@@ -4,7 +4,7 @@
   //   Parameter        Type             Description
   //
   //Description:
-  //   
+  //  
   //
   //Date        Init  Description
   //===============================================================================
@@ -23,10 +23,10 @@ $vP_attendeeLB:=OBJECT Get pointer(Object named;"curMtgDetailAttendees_LB")
 If (Nil($vP_attendeeLB))
 	DBG_Log ("Could not get pointer to atendee list box")
 	$vB_continue:=False
-End if 
+End if
 
 If ($vB_continue)
-	Case of 
+	Case of
 		: ($vL_formEvent=On Load)
 			If (vT_meetingUUID="")
 				DBG_Log ("New meeting")
@@ -34,97 +34,97 @@ If ($vB_continue)
 				vT_meetingUUID:=[Meeting]ID
 				[Meeting]StartDate:=Current date
 				[Meeting]startTime:=Current time  // to do, check this time, now is just stupid
-			Else 
+			Else
 				QUERY([Meeting];[Meeting]ID=vT_meetingUUID)
-				
+			
 				DBG_Log ("Current selection has ["+String(Records in selection([Meeting]))+"] records")
 				DBG_Log ("Should be showing meeting matching ID ["+vT_meetingUUID+"]")
-				
+			
 				If (OK#1)
 					$vB_continue:=False
 					DBG_Log ("Could not query for meeting with ID ["+vT_meetingUUID+"]")
-					
-				Else 
+				
+				Else
 					  // query succeeded, did it give us something sensible
 					If (Records in selection([Meeting])=0)
 						$vB_continue:=False
 						DBG_Log ("Could not locate a meeting with ID ["+vT_meetingUUID+"]")
-						
-					Else 
+					
+					Else
 						DBG_Log ("Update existing meeting ["+[Meeting]ID+"]")
-						
+					
 						  // create/clear data
 						ARRAY TEXT(aT_curMtgDetailAttendees_Col;0)
 						  // get the attendees of this meeting only
 						CREATE SET([Attendees];"tmp cur attendees")
 						QUERY([Attendees];[Attendees]Mtg_ID_Fk=[Meeting]ID)
-						
+					
 						C_LONGINT($vL_index;$vL_numAttendees)
 						$vL_numAttendees:=Records in selection([Attendees])
-						
+					
 						FIRST RECORD([Attendees])
-						
+					
 						For ($vL_index;1;$vL_numAttendees)
 							APPEND TO ARRAY(aT_curMtgDetailAttendees_Col;String_ShortEmployeeFromUUID ([Attendees]Emp_ID_Fk))
 							  // todo: highlight speakers
-							
+						
 							If (Not([Attendees]ListeningOnlyFg))
 								LISTBOX SET ROW FONT STYLE($vP_attendeeLB->;$vL_index;Bold)
-							End if 
-							
-							NEXT RECORD([Attendees])
-						End for 
+							End if
 						
+							NEXT RECORD([Attendees])
+						End for
+					
 						  //QUERY([Employee];[Employee]ID=[Attendees]Emp_ID_Fk)
 						USE SET("tmp cur attendees")
-						
-					End if 
 					
-				End if 
+					End if
 				
-			End if 
+				End if
 			
+			End if
+		
 		: ($vL_formEvent=On Clicked)
-			Case of 
+			Case of
 				: (vB_mtgDetailCancelBtn=1)
 					DBG_Log ("Meeting detail form cancelled")
 					CANCEL
-					
+				
 				: (vB_mtgDetailOKBtn=1)
 					DBG_Log ("Save and accept meeting details")
 					SAVE RECORD([Meeting])
 					ACCEPT
-					
-			End case 
-			
+				
+			End case
+		
 		: ($vL_formEvent=On Double Clicked)
 			C_TEXT($vT_objectName)
 			$vT_objectName:=OBJECT Get name(Object with focus)
 			DBG_Log ("Object ["+$vT_objectName+"] has focus")
 			C_LONGINT($vL_column;$vL_row)
 			C_POINTER($vP_aColumnVar)
-			
-			Case of 
+		
+			Case of
 				: ($vT_objectName="curMtgDetailAttendees_LB")
 					LISTBOX GET CELL POSITION($vP_attendeeLB->;$vL_column;$vL_row;$vP_aColumnVar)
-					
+				
 					If (($vL_column=0))  // | ($vL_row=0))
 						  // We double clicked, the list box is the focus, but we didn't double click anything in the list
 						DBG_Log ("Not in attendee list box ["+String($vL_column)+","+String($vL_row)+"]")
-					Else 
+					Else
 						DBG_Log ("DblClick on attendee list box ["+String($vL_column)+","+String($vL_row)+"]")
 						ShowAttendeeSelectionForm (vT_meetingUUID)
-					End if 
-					
-				Else 
+					End if
+				
+				Else
 					DBG_Log ("Unhandled object has focus ["+$vT_objectName+"]")
-			End case 
-			
-		Else 
+			End case
+		
+		Else
 			DBG_Log ("Unhandled event")
-			
-	End case 
-	
-End if 
+		
+	End case
 
-DBG_EndMethod 
+End if
+
+DBG_EndMethod

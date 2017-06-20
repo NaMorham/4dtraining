@@ -31,24 +31,24 @@ If (OK=1)
 		$vO_thorPic:=[Employee]ProfilePicture
 		$vB_hasPic:=True
 		TRUNCATE TABLE([Employee])
-		
+	
 		  //If (OK=1)
 		  //VALIDATE TRANSACTION
 		  //DBG_Log ("Transaction validated")
-		  //Else 
+		  //Else
 		  //CANCEL TRANSACTION
 		  //DBG_Log ("Transaction cancelled")
-		  //End if 
-	Else 
+		  //End if
+	Else
 		DBG_Log ("No one to delete")
-	End if 
-End if 
+	End if
+End if
 
   // all records deleted, recreate Thor
 If (OK=1)
 	DBG_Log ("Create new Thor :p ")
 	CREATE RECORD([Employee])
-	
+
 	[Employee]ID:=Generate UUID
 	[Employee]Surname:="Odinson"
 	[Employee]FirstName:="Thor"
@@ -65,11 +65,11 @@ If (OK=1)
 	  // Haven't figured out pics yet
 	If ($vB_hasPic)
 		[Employee]ProfilePicture:=$vO_thorPic
-	End if 
-	
+	End if
+
 	DBG_Log ("Thor ["+[Employee]ID+","+String_ShortEmployeeFromSelect +"] - DONE")
 	SAVE RECORD([Employee])
 	DBG_Log ("Thor saved")
-End if 
+End if
 
-DBG_EndMethod 
+DBG_EndMethod

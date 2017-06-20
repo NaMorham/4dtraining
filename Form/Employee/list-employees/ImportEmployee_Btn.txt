@@ -19,14 +19,14 @@ $vT_filename:="C:\\Users\\andrewhickey.GENIE\\Documents\\Development\\python\\sm
 $aT_filePaths{1}:=$vT_filename
 If (OK#1)
 	ALERT("Cancelled")
-End if 
+End if
 
 If (OK=1)
 	C_LONGINT($vL_numRecords)
 	$vL_numRecords:=EMP_ImportFromCSV ($aT_filePaths{1})
 	If ($vL_numRecords<1)
 		ALERT("Failed to read any records from file ["+$aT_filePaths{1}+"]")
-	Else 
+	Else
 		DBG_Log ("Read ["+String($vL_numRecords)+"] from import file ["+$aT_filePaths{1}+"]")
-	End if 
-End if 
+	End if
+End if

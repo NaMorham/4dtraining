@@ -4,7 +4,7 @@
   //   Parameter        Type             Description
   //
   //Description:
-  //   
+  //  
   //
   //Date        Init  Description
   //===============================================================================
@@ -22,150 +22,150 @@ If (<>vL_mainFormProcID<1)
 	DBG_Log ("First run: new process ID = ["+String(<>vL_mainFormProcID)+"]")
 	READ ONLY([Employee])
 	ALL RECORDS([Employee])
-	
+
 	READ ONLY([Meeting])
 	ALL RECORDS([Meeting])
 	COPY NAMED SELECTION([Meeting];"<>meetingsList_LB")
-End if 
+End if
 
   // Sanity check the page selection
 If ((<>vL_mainFormPageID<1) & (<>vL_mainFormPageID>2))
 	DBG_Log ("<>vL_mainWindowPageID ["+String(<>vL_mainFormPageID)+\
 		"] is not a valid page, going to default")
 	<>vL_mainFormPageID:=1
-End if 
+End if
 
 If (Type(vL_numAttendees)=Is undefined)
 	C_LONGINT(vL_numAttendees)
 	vL_numAttendees:=0
-End if 
+End if
 
   //C_BOOLEAN($vB_OptDown)
   //$vB_OptDown:=Macintosh option down  //Windows Alt
   //If ($vB_OptDown)
   //DBG_Log ("Click with Alt")
-  //Else 
+  //Else
   //DBG_Log ("Click without Alt")
-  //End if 
+  //End if
 
 C_POINTER($vP_empLB;$vP_meetingLB)
 
 $vP_empLB:=OBJECT Get pointer(Object named;"employeeList_LB")
 If (Nil($vP_empLB))
 	DBG_Log ("Could not get pointer to employee list box")
-End if 
+End if
 
 $vP_meetingLB:=OBJECT Get pointer(Object named;"meetingsList_LB")
 
 If (Nil($vP_meetingLB))
 	DBG_Log ("Could not get pointer to meetings list box")
-End if 
+End if
 
   // Handle our events
-Case of 
+Case of
 		  //----------------------------------------------------------------------
 	: ($vL_formEvent=On Load)
 		DBG_Log ("Event = On Load")
 		C_TEXT($vT_titleText;$vT_titleDesc)
-		
-		Case of 
+	
+		Case of
 			: (<>vL_mainFormPageID=1)
 				$vT_titleText:="Employees"
 				$vT_titleDesc:="List of current employees"
-				MAINFRM_PopulateEmplolyeesList 
-				
+				MAINFRM_PopulateEmplolyeesList
+			
 			: (<>vL_mainFormPageID=2)
 				$vT_titleText:="Meetings"
 				$vT_titleDesc:="List of meetings"
-				
-		End case 
-		
+			
+		End case
+	
 		LBL_AlignAndPopulateObject ("mainTitle_Lbl";$vT_titleText)
 		LBL_AlignAndPopulateObject ("mainDesc_Lbl";$vT_titleDesc)
 		FORM GOTO PAGE(<>vL_mainFormPageID)
-		
+	
 		  //----------------------------------------------------------------------
 	: ($vL_formEvent=On Clicked)
 		DBG_Log ("Event = On Clicked")
 		C_LONGINT($vL_column;$vL_row)
 		C_POINTER($vP_aColumnVar)
-		
-		Case of 
+	
+		Case of
 			: (vB_viewAllBtn=1)
 				DBG_Log ("View All clicked")
 				vB_viewAllBtn:=0
-				Case of 
+				Case of
 					: (<>vL_mainFormPageID=1)
 						ALL RECORDS([Employee])
-						MAINFRM_PopulateEmplolyeesList 
-						
+						MAINFRM_PopulateEmplolyeesList
+					
 					: (<>vL_mainFormPageID=2)
 						CLEAR NAMED SELECTION("<>meetingsList_LB")
 						ALL RECORDS([Meeting])
 						COPY NAMED SELECTION([Meeting];"<>meetingsList_LB")
 						  // don't need to do anything else
-						
-					Else 
+					
+					Else
 						ALERT("View all called without a valid page")
-				End case 
+				End case
 				REDRAW WINDOW
-				
+			
 			: (vB_addMainRecordBtn=1)
 				DBG_Log ("Add record clicked")
 				vB_addMainRecordBtn:=0
-				
-				Case of 
+			
+				Case of
 					: (<>vL_mainFormPageID=1)  // Employees
-						EMP_ShowDetailForm 
-						
+						EMP_ShowDetailForm
+					
 					: (<>vL_mainFormPageID=2)  // Meetings
 						USE NAMED SELECTION("<>meetingsList_LB")
-						ShowMeetingDetailForm 
-						
-				End case 
-				
-				
+						ShowMeetingDetailForm
+					
+				End case
+			
+			
 			: (vB_delRecordBtn=1)
 				DBG_Log ("Delete record clicked")
 				vB_delRecordBtn:=0
 				DBG_Log ("Todo delete record")
-				
+			
 			: (vB_searchBtn=1)
 				DBG_Log ("Query clicked")
 				vB_searchBtn:=0
 				DBG_Log ("Todo search records")
-				
+			
 			: (vB_meetingsBtn=1)
 				DBG_Log ("Change to meetings clicked")
 				vB_meetingsBtn:=0
 				USE NAMED SELECTION("<>meetingsList_LB")
-				EVT_ShowMeetings 
-				
+				EVT_ShowMeetings
+			
 			: (vB_employeesBtn=1)
 				DBG_Log ("Change to employees clicked")
 				vB_employeesBtn:=0
-				EVT_ShowEmployees 
-				
-			Else 
-				Case of 
+				EVT_ShowEmployees
+			
+			Else
+				Case of
 					: (<>vL_mainFormPageID=1)
 						LISTBOX GET CELL POSITION($vP_empLB->;$vL_column;$vL_row;$vP_aColumnVar)
 					: (<>vL_mainFormPageID=2)
 						LISTBOX GET CELL POSITION($vP_meetingLB->;$vL_column;$vL_row;$vP_aColumnVar)
-					Else 
+					Else
 						$vL_column:=0
 						$vL_row:=0
-						
-				End case 
+					
+				End case
 				If (($vL_column=0) | ($vL_row=0))
 					  // We double clicked, the list box is the focus, but we didn't double click anything in the list
 					DBG_Log ("Not in list box ["+String($vL_column)+","+String($vL_row)+"]")
-				Else 
+				Else
 					DBG_Log ("Click on list box ["+String($vL_column)+","+String($vL_row)+"]")
-				End if 
-				
-		End case 
-		
+				End if
+			
+		End case
+	
 		  //----------------------------------------------------------------------
 	: ($vL_formEvent=On Double Clicked)
 		C_TEXT($vT_objectName)
@@ -173,39 +173,39 @@ Case of
 		DBG_Log ("Object ["+$vT_objectName+"] has focus")
 		C_LONGINT($vL_column;$vL_row)
 		C_POINTER($vP_aColumnVar)
-		
-		Case of 
+	
+		Case of
 			: (($vT_objectName="employeeList_LB") & (<>vL_mainFormPageID=1))
 				LISTBOX GET CELL POSITION($vP_empLB->;$vL_column;$vL_row;$vP_aColumnVar)
-				
+			
 				If (($vL_column=0) | ($vL_row=0))
 					  // We double clicked, the list box is the focus, but we didn't double click anything in the list
 					DBG_Log ("Not in employee list box ["+String($vL_column)+","+String($vL_row)+"]")
-					
-				Else 
+				
+				Else
 					DBG_Log ("DblClick on employee list box ["+String($vL_column)+","+String($vL_row)+"]")
 					  //GetLockedDetails (Table(->[Employee]))
 					CREATE SET([Employee];"Pre Employee Detail Selection")
 					EMP_ShowDetailForm (aT_empListUUID{aT_empListUUID})
 					USE SET("Pre Employee Detail Selection")
-					MAINFRM_PopulateEmplolyeesList 
-					
-				End if 
+					MAINFRM_PopulateEmplolyeesList
 				
+				End if
+			
 				  //----------------------------------------------------------------------
 			: (($vT_objectName="meetingsList_LB") & (<>vL_mainFormPageID=2))
 				LISTBOX GET CELL POSITION($vP_meetingLB->;$vL_column;$vL_row;$vP_aColumnVar)
-				
+			
 				  //GetLockedDetails (Table(->[Meeting]))
 				If (($vL_column=0) | ($vL_row=0))
 					  // We double clicked, the list box is the focus, but we didn't double click anything in the list
 					DBG_Log ("Not in meeting list box ["+String($vL_column)+","+String($vL_row)+"]")
-					
-				Else 
+				
+				Else
 					CREATE SET([Meeting];"Current Meeting Selection")
 					USE SET("selected meeting set")
 					DBG_Log ("DblClick on meeting list box ["+String($vL_column)+","+String($vL_row)+"]")
-					
+				
 					  //GetLockedDetails (Table(->[Meeting]))
 					C_TEXT($vT_meetingUUID)
 					  //GOTO RECORD([Meeting];$vL_row-1)
@@ -214,52 +214,52 @@ Case of
 					DBG_Log ("Listbox var vL_meetingsListLB = ["+String(vL_meetingsListLB)+"]")
 					ShowMeetingDetailForm ($vT_meetingUUID)
 					USE SET("Current Meeting Selection")
-				End if 
-				
-			Else 
+				End if
+			
+			Else
 				DBG_Log ("Unhandled - Object ["+$vT_objectName+"]")
-				
-		End case 
-		
+			
+		End case
+	
 		  //----------------------------------------------------------------------
 	: ($vL_formEvent=On Selection Change)
-		
-		Case of 
+	
+		Case of
 			: (<>vL_mainFormPageID=1)
 				  // Employee info
 				DBG_Log ("Event = On Selection Change")
 				aT_empListUUID:=aT_empNameCol
 				  // How do I update the employee detail window?  Should I even try?
-				
+			
 			: (<>vL_mainFormPageID=2)
 				  // Meeting info
 				USE SET("selected meeting set")
 				DBG_Log ("Meeting selection change")
 				DBG_Log ("Selected meeting ID ["+[Meeting]ID+"]")
 				$vT_meetingUUID:=[Meeting]ID
-				
+			
 				  //If (Records in selection([Meeting])>0)
 				  //QUERY([Attendees];[Attendees]Mtg_ID_Fk=[Meeting]ID)
 				  //vL_numAttendees:=Records in selection([Attendees])
-				  //Else 
+				  //Else
 				  //vL_numAttendees:=0
-				  //End if 
+				  //End if
 				  //DBG_Log ("After selection change: numAttendees = ["+String(vL_numAttendees)+"]")
-				
-		End case 
-		
+			
+		End case
+	
 		  //----------------------------------------------------------------------
 	: ($vL_formEvent=On Close Box)
 		DBG_Log ("Event = On Close Box")
 		CANCEL
-		
+	
 		  //----------------------------------------------------------------------
 	: ($vL_formEvent=On Menu Selected)
 		DBG_Log ("Event = On Menu Selected")
-		
-	Else 
+	
+	Else
 		DBG_Log ("Event = "+String_GetEventString ($vL_formEvent))
-		
-End case 
+	
+End case
 
-DBG_EndMethod 
+DBG_EndMethod

@@ -6,7 +6,7 @@
   //    vT_result       Text       ->    Uppercase(Surname),firstname,mobile
   //
   //Description:
-  //   
+  //  
   //
   //Date        Init  Description
   //===============================================================================
@@ -22,8 +22,8 @@ If (Size of array($vP_employeeData->)=10)
 	$vT_result:=Uppercase($vP_employeeData->{2})+","
 	$vT_result:=$vT_result+$vP_employeeData->{3}+","
 	$vT_result:=$vT_result+$vP_employeeData->{5}
-Else 
+Else
 	$vT_result:="***ERROR***"
-End if 
+End if
 
 $0:=$vT_result

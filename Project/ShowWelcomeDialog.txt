@@ -10,15 +10,15 @@ If (<>vL_WelcomeDialogID<1)
 	<>vL_WelcomeDialogID:=Open form window("Welcome")
 	DIALOG("Welcome")
 	CLOSE WINDOW(<>vL_WelcomeDialogID)
-Else 
-	
+Else
+
 	If (<>vL_WelcomeDialogProcID<1)
 		  // wtf do we do?
 		DBG_Log ("Cannot find <>vL_WelcomeProcID")
-	Else 
+	Else
 		BRING TO FRONT(<>vL_WelcomeDialogProcID)
-	End if 
-	
-End if 
+	End if
 
-DBG_EndMethod 
+End if
+
+DBG_EndMethod

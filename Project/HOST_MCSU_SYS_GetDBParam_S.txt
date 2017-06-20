@@ -33,8 +33,8 @@ If (Count parameters>=2)
 	$vP_StrValue:=$2
 	$vL_Value:=Get database parameter($vL_Selector;$vT_Value)
 	$vP_StrValue->:=$vT_Value
-Else 
+Else
 	$vL_Value:=Get database parameter($vL_Selector)
-End if 
+End if
 
 $0:=$vL_Value

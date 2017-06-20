@@ -2,10 +2,10 @@
   //Project Method: DBG_Log(vT_message)
   //
   //   Parameter        Type             Description
-  //   vT_message       Text     <-      The message to display 
+  //   vT_message       Text     <-      The message to display
   //
   //Description:
-  //   
+  //  
   //
   //Date        Init  Description
   //===============================================================================
@@ -15,9 +15,9 @@ C_TEXT($vT_methodName)
 
 If (Type(aT_callStack)=Is undefined)
 	$vT_methodName:=""
-Else 
+Else
 	$vT_methodName:=aT_callStack{Size of array(aT_callStack)}
-End if 
+End if
 
 C_TEXT($1;$vT_message;$vT_finalMessage)
 $vT_message:=$1

@@ -5,7 +5,7 @@
   //    vT_result       Text       ->    Uppercase(Surname),firstname,mobile
   //
   //Description:
-  //   
+  //  
   //
   //Date        Init  Description
   //===============================================================================
@@ -16,8 +16,8 @@ $vT_result:="***ERROR***"
 
 If (Records in selection([Employee])>0)
 	$vT_result:=Uppercase([Employee]Surname)+","+[Employee]FirstName+","+[Employee]Mobile
-Else 
+Else
 	DBG_Log ("No employees selected")
-End if 
+End if
 
 $0:=$vT_result

@@ -21,9 +21,9 @@ C_LONGINT($1;$vL_event)
 
 If (Count parameters>=1)
 	$vL_event:=$1
-Else 
+Else
 	$vL_event:=Form event
-End if 
+End if
 
 C_LONGINT($vL_index)
 $vL_index:=Find in array(<>aL_eventValues;$vL_event)
@@ -31,10 +31,10 @@ $vL_index:=Find in array(<>aL_eventValues;$vL_event)
 
 If ($vL_index=-1)  // didn't find it
 	$vT_eventText:=String($vL_event)+":UNKNOWN EVENT"
-Else 
+Else
 	$vT_eventText:=String($vL_event)+":"+<>aT_eventNames{$vL_index}
-End if 
+End if
 
 $0:=$vT_eventText
 
-  //DBG_EndMethod 
+  //DBG_EndMethod

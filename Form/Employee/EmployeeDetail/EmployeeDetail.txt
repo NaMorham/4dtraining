@@ -4,7 +4,7 @@
   //   Parameter        Type             Description
   //
   //Description:
-  //   
+  //  
   //
   //Date        Init  Description
   //===============================================================================
@@ -15,70 +15,70 @@ DBG_BeginMethod (Current method name;True)
 C_LONGINT($vL_formEvent)
 $vL_formEvent:=Form event
 
-Case of 
+Case of
 		  //-----------------------------------------------------------------------------
 	: ($vL_formEvent=On Load)
 		If (<>vL_editEmployeeFormProcID<1)
 			<>vL_editEmployeeFormProcID:=Current process
-		End if 
-		
+		End if
+	
 		If (Type(vT_employeeUUID)=Is undefined)
 			C_TEXT(vT_employeeUUID)
 			  // Safety...
-		End if 
-		
+		End if
+	
 		If (vT_employeeUUID="")
 			CREATE RECORD([Employee])
 			vT_employeeUUID:=[Employee]ID
 			[Employee]StartDate:=Current date
 			DBG_Log ("New employee. ID ["+vT_employeeUUID+"]")
-		Else 
+		Else
 			DBG_Log ("Existing employee. ID ["+vT_employeeUUID+"]")
-		End if 
-		
+		End if
+	
 		If (False)  // Not behaving :(
 			C_POINTER($vP_CancelBtn;$vP_OKBtn)
 			C_LONGINT($vL_tempForeColour;$vL_tempBackColour)
-			
+		
 			$vP_CancelBtn:=OBJECT Get pointer(Object named;"empDetailCancel_Btn")
 			If (Nil($vP_CancelBtn))
 				DBG_Log ("Could not get pointer for cancel button")
-			Else 
+			Else
 				OBJECT SET COLOR($vP_CancelBtn->;(White+(256*Orange)))
-			End if 
-			
+			End if
+		
 			$vP_OKBtn:=OBJECT Get pointer(Object named;"empDetailOK_Btn")
 			If (Nil($vP_OKBtn))
 				DBG_Log ("Could not get pointer for ok button")
-			Else 
+			Else
 				  // OBJECT SET COLOR($vP_OKBtn->;Orange)
 				OBJECT SET COLOR($vP_CancelBtn->;(White+(256*Orange)))
-			End if 
-		End if 
-		
+			End if
+		End if
+	
 		C_POINTER($vP_recNum)
 		$vP_recNum:=OBJECT Get pointer(Object named;"recNum_Lbl")
 		If (Nil($vP_recNum))
 			DBG_Log ("Could not get pointer for record number label")
-		Else 
+		Else
 			OBJECT SET VERTICAL ALIGNMENT($vP_recNum;Align center)
-		End if 
-		
+		End if
+	
 		  //-----------------------------------------------------------------------------
 	: ($vL_formEvent=On Clicked)
-		Case of 
+		Case of
 			: (vB_empDetailOKBtn=1)
 				DBG_Log ("OK clicked, check before and after entries")
 				SAVE RECORD([Employee])
 				ACCEPT
-				
+			
 			: (vB_empDetailCancelBtn=1)
 				DBG_Log ("Employee detail cancelled")
 				vT_employeeUUID:=""
 				CANCEL
-				
-		End case 
-		
+			
+		End case
+	
 		  //-----------------------------------------------------------------------------
 	: ($vL_formEvent=On Data Change)
 		DBG_Log ("Data change event")
@@ -90,10 +90,10 @@ Case of
 		DBG_Log ("  [Employee]FirstName = ["+[Employee]FirstName+"]")
 		DBG_Log ("[Employee]IsManagerFg = ["+String([Employee]IsManagerFg)+"]")
 		DBG_Log ("  [Employee]StartDate = ["+String([Employee]StartDate)+"]")
-		
+	
 		  //-----------------------------------------------------------------------------
 		  // Moar to come
-		
-End case 
+	
+End case
 
-DBG_EndMethod 
+DBG_EndMethod

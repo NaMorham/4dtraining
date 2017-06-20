@@ -4,13 +4,13 @@
   //   Parameter        Type             Description
   //
   //Description:
-  //   
+  //  
   //
   //Date        Init  Description
   //===============================================================================
   //08/05/2017   AH   Initial version.
 
-  // DO NOT USE THE DEBUG LOGGER HERE - 
+  // DO NOT USE THE DEBUG LOGGER HERE -
 
 C_TEXT(<>CR;<>LF;<>QU;<>SQ;<>TB;<>SP;<>DSEP)
 <>TB:=Char(Tab)
@@ -25,9 +25,9 @@ PLATFORM PROPERTIES(<>vL_platform;<>vL_system)
 
 If (<>vL_platform=Mac OS)
 	<>DSEP:=":"
-Else 
+Else
 	<>DSEP:="\\"
-End if 
+End if
 
   // Dialog/Form handlers
 
@@ -50,7 +50,7 @@ C_LONGINT(<>vL_mainFormPageID;<>vL_mainFormID;<>vL_mainFormProcID)
   //// The employee detail form
 C_LONGINT(<>vL_editEmployeeFormProcID;<>vL_editEmployeeFormID)
 <>vL_editEmployeeFormProcID:=-1
-<>vL_editEmployeeFormID:=-1  // Window ID of the edit/add employee form 
+<>vL_editEmployeeFormID:=-1  // Window ID of the edit/add employee form
 
   //// The meeting detail form
 C_LONGINT(<>vL_editMeetingFormProcID;<>vL_editMeetingFormID)
@@ -64,7 +64,7 @@ C_LONGINT(<>vL_attendeeSelectionFormProcID;<>vL_attendeeSelectionFormID)
 
   // Other process and IDs
 C_LONGINT(<>vL_testProcessID)
-<>vL_testProcessID:=-1  // The ID of the background process 
+<>vL_testProcessID:=-1  // The ID of the background process
 
   // Background process times and counters
 C_LONGINT(<>vL_bg_fireCount;<>vL_bg_tickDelay)

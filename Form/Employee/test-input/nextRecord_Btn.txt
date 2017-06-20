@@ -4,7 +4,7 @@
   //   Parameter        Type             Description
   //
   //Description:
-  //   
+  //  
   //
   //Date        Init  Description
   //===============================================================================
@@ -14,16 +14,16 @@ C_LONGINT($vL_Event)
 $vL_Event:=Form event
 
 
-Case of 
+Case of
 	: ($vL_Event=On Clicked)
 		DBG_Log ("Form ["+String(Current process)+":test-input].NextRecord -> On Clicked")
 		If (Not(End selection([Employee])) & (Selected record number([Employee])#Records in selection([Employee])))
 			NEXT RECORD([Employee])
-		Else 
+		Else
 			DBG_Log ("Create new employee")
 			CREATE RECORD([Employee])
 			[Employee]ID:=Generate UUID
 			[Employee]StartDate:=Current date
-		End if 
-		
-End case 
+		End if
+	
+End case

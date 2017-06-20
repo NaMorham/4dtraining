@@ -4,7 +4,7 @@
   //   Parameter        Type             Description
   //
   //Description:
-  //   
+  //  
   //
   //Date        Init  Description
   //===============================================================================
@@ -13,5 +13,5 @@
 If (Type(aT_callStack)=Text array)
 	DBG_Log ("End method")
 	DELETE FROM ARRAY(aT_callStack;Size of array(aT_callStack))
-End if 
+End if
 

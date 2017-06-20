@@ -4,7 +4,7 @@
   //   Parameter        Type             Description
   //
   //Description:
-  //   
+  //  
   //
   //Date        Init  Description
   //===============================================================================
@@ -12,10 +12,10 @@
 
 C_LONGINT($vL_FormEvent)
 $vL_FormEvent:=Form event
-Case of 
+Case of
 	: ($vL_FormEvent=On Load)
 		  //ALERT("Form load")
 		  // Get a list of managers who are;
 		  // a) Flagged as a manager
 		  // b) Currently employed (end date is empty or null)
-End case 
+End case

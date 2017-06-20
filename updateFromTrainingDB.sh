@@ -180,7 +180,7 @@ if [[ -z ${ROAMES_NO_SCRIPT_LOGGING:-} ]]; then
         logfileprefix="${logfileprefix}.$$"
         dbgEcho "Rebuilt logfileprefix [$logfileprefix]"
     fi
-    infoEcho "Logging to ${logfileprefix}.err.log and ${logfileprefix}.out.log" 
+    infoEcho "Logging to ${logfileprefix}.err.log and ${logfileprefix}.out.log"
     exec 2> >(tee -a ${logfileprefix}.err.log 1>&2)
     exec > >(tee -a ${logfileprefix}.out.log)
 else
@@ -199,14 +199,14 @@ traceEcho "Validate args"
 
 if [[ ! -d $trainingDBPath || ! -r $trainingDBPath ]]; then
     die "Cannot read input directory [$trainingDBPath]"
-fi 
+fi
 
 traceEcho "Process"
 
 git status || die "COuld not run [git status]"
 
 find "$trainingDBPath" -type f | while read infile; do
-    inmd5="$(md5sum "$infile" | cut -d ' ' -f 1 || die "Cannot calculte md5sum for file[$infile]")"
+    inmd5="$(md5sum <(sed -r "s@\r\n@\n@g; s@\r@\n@g; s%[ \t]+$%%g" "$infile") | cut -d ' ' -f 1 || die "Cannot calculte md5sum for file[$infile]")"
     dbgVar infile inmd5
     outfile="$(sed -r "s@^${trainingDBPath}/@./@" <<< $infile)"
 
@@ -219,7 +219,7 @@ find "$trainingDBPath" -type f | while read infile; do
             infoEcho "input file [$infile] is identical to existing output file - skipping"
             continue
         else
-            cp -pv "$infile" "$outfile" || die "Failed to copy modified file [$infile]"
+            sed -r "s@\r\n@\n@g; s@\r@\n@g; s%[ \t]+$%%g" "$infile" > "$outfile" && infoEcho "Copied modified [$infile]" || die "Failed to copy modified file [$infile]"
             git add "$outfile" || die "Could not add updated file [$outfile] to git"
         fi
     else
@@ -229,7 +229,7 @@ find "$trainingDBPath" -type f | while read infile; do
         if [[ ! -d $outpath ]]; then
             mkdir -pv "$outpath" || die "Could not make output path [$outpath]"
         fi
-        cp -pv "$infile" "$outfile" || die "Failed copying new file [$infile]"
+        sed -r "s@\r\n@\n@g; s@\r@\n@g; s%[ \t]+$%%g" "$infile" > "$outfile" && infoEcho "Copied new file [$infile]" || die "Failed copying new file [$infile]"
         git add "$outfile" || die "Could not add new file [$outfile] to git"
     fi
 done

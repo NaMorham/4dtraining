@@ -6,7 +6,7 @@
   //    $vL_NumAttendees    LongInt   <-     The number of employees attending the meeting
   //
   //Description:
-  //   
+  //  
   //
   //Date        Init  Description
   //===============================================================================
@@ -16,9 +16,9 @@ C_TEXT($1;$vT_meetingUUID)
 
 If (Count parameters=1)
 	$vT_meetingUUID:=$1
-Else 
+Else
 	$vT_meetingUUID:="5085B4DAAC9DE94A992AB041CE22BF3B"
-End if 
+End if
 
 C_LONGINT($0;$vL_NumAttendees)
 $vL_NumAttendees:=0
@@ -33,47 +33,47 @@ $vB_isNotUUID:=Match regex("[^0-9a-fA-f]";"5085B4DAAC9DE94A992AB041CE22BF3B";1)
   // is a UUID
 If ($vB_isNotUUID)
 	DBG_Log ("FAIL")
-End if 
+End if
 
 $vB_isNotUUID:=Match regex("[^0-9a-fA-F]";"5085B4DAAC9DE94A992AB041CE22BF3X";1;pos_found_array;length_found_array)
 If (Not($vB_isNotUUID))
 	DBG_Log ("FAIL")
-End if 
+End if
 MCSU_ARRAY_Clear (->pos_found_array;->length_found_array)
 
 $vB_isNotUUID:=Match regex("[^0-9]";"5085B4DAAC9DE94A992AB041CE22BF3X";1;pos_found_array;length_found_array)
 If (Not($vB_isNotUUID))
 	DBG_Log ("Match regex(\"[^0-9]\";\"5085B4DAAC9DE94A992AB041CE22BF3X\";1) -> FAIL")
-End if 
+End if
 MCSU_ARRAY_Clear (->pos_found_array;->length_found_array)
 
 $vB_isNotUUID:=Match regex("\\[^0-9a-fA-F\\]";"5085B4DAAC9DE94A992AB041CE22BF3X";1;pos_found_array;length_found_array)
 If ($vB_isNotUUID)
 	DBG_Log ("Match regex(\"\\[^0-9a-fA-F\\]\";\"5085B4DAAC9DE94A992AB041CE22BF3X\";1) -> FAIL")
-End if 
+End if
 MCSU_ARRAY_Clear (->pos_found_array;->length_found_array)
 
 $vB_isNotUUID:=Match regex("[^0-9a-fA-F]";"Not a UUID";1;pos_found_array;length_found_array)
 If (Not($vB_isNotUUID))
 	DBG_Log ("Match regex(\"[^0-9a-fA-F]\";\"Not a UUID\";1) -> FAIL")
-End if 
+End if
 MCSU_ARRAY_Clear (->pos_found_array;->length_found_array)
 
 $vB_isNotUUID:=Match regex("[^0-9a-fA-F]";$vT_meetingUUID;1)
 
 If ((Length($vT_meetingUUID)#32) | ($vB_isNotUUID))  // UUID 12+4+4+4+8
 	DBG_Log ("["+$vT_meetingUUID+"] is not a valid UUID")
-Else 
+Else
 	CREATE SET([Attendees];"Current attendees")
 	QUERY([Attendees];[Attendees]Mtg_ID_Fk=$vT_meetingUUID)
-	
+
 	If (OK=1)
 		$vL_NumAttendees:=Records in selection([Attendees])
-	Else 
+	Else
 		DBG_Log ("Failed to query for number of attendees in meeting ["+$vT_meetingUUID+"]")
-	End if 
-	
+	End if
+
 	USE SET("Current attendees")
-End if 
+End if
 
 $0:=$vL_NumAttendees

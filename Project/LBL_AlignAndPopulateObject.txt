@@ -27,12 +27,12 @@ $vP_labelObj:=OBJECT Get pointer(Object named;$vT_objName)
 If (Nil($vP_labelObj))
 	$vT_oldText:=""
 	DBG_Log ("Could not get object pointer for label \""+$vT_objName+"\"")
-Else 
+Else
 	OBJECT SET VERTICAL ALIGNMENT($vP_labelObj;Align center)
 	$vT_oldText:=$vP_labelObj->
 	$vP_labelObj->:=$vT_newText
-End if 
+End if
 
 $0:=$vT_oldText
 
-DBG_EndMethod 
+DBG_EndMethod

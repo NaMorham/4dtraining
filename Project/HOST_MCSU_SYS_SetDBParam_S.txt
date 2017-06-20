@@ -27,6 +27,6 @@ $vL_NumValue:=$2
 If (Count parameters>=3)
 	$vT_StrValue:=$3
 	SET DATABASE PARAMETER($vL_Selector;$vT_StrValue)
-Else 
+Else
 	SET DATABASE PARAMETER($vL_Selector;$vL_NumValue)
-End if 
+End if

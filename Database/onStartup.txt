@@ -2,5 +2,5 @@
   //If (OK#1)
   //DBG_Log ("Startup called, OK is not 1 ["+String(OK)+"]")
   //OK:=1
-  //End if 
-Startup 
+  //End if
+Startup

@@ -4,7 +4,7 @@
   //   Parameter        Type             Description
   //
   //Description:
-  //   
+  //  
   //
   //Date        Init  Description
   //===============================================================================
@@ -17,21 +17,21 @@ $vL_formEvent:=Form event
 
 If (Type($vT_meetingUUID)=Is undefined)
 	C_TEXT($vT_meetingUUID)
-End if 
+End if
 
-Case of 
+Case of
 	: ($vL_formEvent=On Selection Change)
 		DBG_Log ("Got selection of record number ["+String(Record number([Meeting]))+"/"+\
 			String(Records in selection([Meeting]))+"]")
 		DBG_Log ("Meeting ID = ["+[Meeting]ID+"]")
-		
+	
 		If ([Meeting]ID#"")
 			$vT_meetingUUID:=[Meeting]ID
-		End if 
-		
+		End if
+	
 	: ($vL_formEvent=On Clicked)
 		DBG_Log ("On click in list box event")
-		
-End case 
+	
+End case
 
-DBG_EndMethod 
+DBG_EndMethod

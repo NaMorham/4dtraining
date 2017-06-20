@@ -4,7 +4,7 @@
   //   Parameter        Type             Description
   //
   //Description:
-  //   
+  //  
   //
   //Date        Init  Description
   //===============================================================================
@@ -15,21 +15,21 @@ DBG_BeginMethod (Current process name)
   // First check if we are actually running
 If (<>vL_UtilitiesDialogProcID<1)
 	<>vL_UtilitiesDialogProcID:=New process("ShowUtilsDialog";32*1024;"Utils Proc")
-Else 
+Else
 	  // we have a process, see if we need to create a dialog
 	If (<>vL_UtilitiesDialogID<1)
 		DBG_Log ("Load new Welcome dialog")
 		<>vL_UtilitiesDialogID:=Open form window("Utilities")
 		SET WINDOW RECT(5;5;525;45;<>vL_UtilitiesDialogID)
 		  //<>vL_UtilitiesDialogID:=Open window(5;5;535;80;Palette window;"Utilities")
-		
+	
 		DIALOG("Utilities")
 		CLOSE WINDOW(<>vL_UtilitiesDialogID)
 		<>vL_UtilitiesDialogID:=-1
 		<>vL_UtilitiesDialogProcID:=-1
-	Else 
+	Else
 		BRING TO FRONT(<>vL_UtilitiesDialogProcID)
-	End if 
-End if 
+	End if
+End if
 
-DBG_EndMethod 
+DBG_EndMethod

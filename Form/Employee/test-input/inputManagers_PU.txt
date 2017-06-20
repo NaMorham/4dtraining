@@ -4,7 +4,7 @@
   //   Parameter        Type             Description
   //
   //Description:
-  //   
+  //  
   //
   //Date        Init  Description
   //===============================================================================
@@ -18,63 +18,63 @@ vT_newManagerUUID:=""
 C_LONGINT($vL_FormEvent)
 $vL_FormEvent:=Form event
 
-Case of 
+Case of
 	: ($vL_FormEvent=On Load)
 		DBG_Log ("On Load")
 		  // Get a list of managers who are;
 		  // a) Flagged as a manager
 		  // b) Currently employed (end date is empty or null)
-		
+	
 		ARRAY TEXT(aT_ManagerUUIDS;0)
 		ARRAY TEXT(aT_inputManagers;0)
-		
+	
 		C_TEXT($vT_SelectedUUID;$vT_SelectedManagerID)
 		$vT_SelectedUUID:=[Employee]ID
 		$vT_SelectedManagerID:=[Employee]Emp_Manager_ID_Fk
-		
+	
 		CREATE SET([Employee];"Current Selection")
-		
+	
 		C_LONGINT($vL_index)
 		  // Before adding managers, ensure the control is empty again
 		$vL_index:=Size of array(aT_inputManagers)
 		If ($vL_index>0)
 			DELETE FROM ARRAY(aT_inputManagers;1;$vL_index)
-		End if 
-		
+		End if
+	
 		  // and the UUID array
 		$vL_index:=Size of array(aT_ManagerUUIDS)
 		If ($vL_index>0)
 			DELETE FROM ARRAY(aT_ManagerUUIDS;1;$vL_index)
-		End if 
-		
+		End if
+	
 		QUERY([Employee];[Employee]IsManagerFg=True;*)
 		QUERY([Employee];[Employee]ID#$vT_SelectedUUID)
-		
+	
 		If (OK=1)
 			C_LONGINT($vL_numManagers)
 			$vL_numManagers:=Records in selection([Employee])
 			If ($vL_numManagers<1)
 				DBG_Log ("No managers found - promote someone")
 				USE SET("Current Selection")
-			Else 
+			Else
 				DBG_Log ("Found ["+String($vL_numManagers)+"] managers")
 				C_LONGINT($vL_index)
-				
+			
 				For ($vL_index;1;$vL_numManagers)
 					APPEND TO ARRAY(aT_inputManagers;Uppercase([Employee]Surname)+", "+[Employee]FirstName+", "+String([Employee]StartDate))
 					APPEND TO ARRAY(aT_ManagerUUIDS;[Employee]ID)
-					
-					NEXT RECORD([Employee])
-				End for 
 				
+					NEXT RECORD([Employee])
+				End for
+			
 				$vL_index:=Find in array(aT_ManagerUUIDS;$vT_SelectedManagerID)
 				aT_inputManagers:=$vL_index
-				
+			
 				  // restore the selction we had before
-			End if 
-		End if 
+			End if
+		End if
 		USE SET("Current Selection")
-		
+	
 	: ($vL_FormEvent=On Clicked)
 		DBG_Log ("Form ["+String(Current process)+":test-input].inputManager_PU -> On Clicked")
 		DBG_Log ("Found ["+String(Size of array(aT_ManagerUUIDS))+"] manager UUIDS")
@@ -85,10 +85,10 @@ Case of
 		If (aT_inputManagers#0)
 			[Employee]Emp_Manager_ID_Fk:=aT_ManagerUUIDS{aT_inputManagers}
 			SAVE RECORD([Employee])
-		Else 
+		Else
 			DBG_Log ("No entry selected for Manager ID")
-		End if 
-		
-End case 
+		End if
+	
+End case
 
-DBG_EndMethod 
+DBG_EndMethod

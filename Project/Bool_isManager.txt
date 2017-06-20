@@ -7,7 +7,7 @@
   //
   //Description:
   //  An employee is considered a manger if they are currently employed and flagged as a manager
-  //   
+  //  
   //
   //Date        Init  Description
   //===============================================================================
@@ -25,12 +25,12 @@ $vB_result:=Bool_isEmployed ($vT_employeeId)
 If (Not($vB_result))
 	DBG_Log ("Employee with ID ["+$vT_employeeId+"] is not an employee")
 	$vB_result:=False
-Else 
+Else
 	DBG_Log ("b) Source selection size = ["+String(Records in selection([Employee]))+"]")
 	  // Is this needed? or is the selection kept from the call to isEmployed
 	QUERY([Employee];[Employee]ID=$vT_employeeId)
 	$vB_result:=([Employee]IsManagerFg & ([Employee]StartDate<=Current date))
 	$vB_result:=$vB_result & (([Employee]EndDate>Current date) | ([Employee]EndDate=!00-00-00!))
-End if 
+End if
 
 $0:=$vB_result

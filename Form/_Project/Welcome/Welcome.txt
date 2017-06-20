@@ -4,7 +4,7 @@
   //   Parameter        Type             Description
   //
   //Description:
-  //   
+  //  
   //
   //Date        Init  Description
   //===============================================================================
@@ -18,72 +18,72 @@ $vL_FormEvent:=Form event
 C_BOOLEAN($vB_continue)
 $vB_continue:=True
 
-Case of 
+Case of
 	: ($vL_FormEvent=On Load)
 		DBG_Log ("Event = On Load")
-		
+	
 		If (<>vL_WelcomeDialogProcID<1)
 			<>vL_WelcomeDialogProcID:=Current process
-		Else 
+		Else
 			$vB_continue:=False
 			CANCEL
 			BRING TO FRONT(<>vL_WelcomeDialogProcID)
-		End if 
-		
+		End if
+	
 		If ($vB_continue)
 			C_POINTER($vP_WelcomeLbl)
-			
+		
 			If (<>vL_testProcessID<1)
 				<>vL_testProcessID:=New process("__test_timer";16*1024;"Background timer process";*)
-			Else 
+			Else
 				DBG_Log ("__test_timer process is already running")
-			End if 
-			
+			End if
+		
 			$vP_WelcomeLbl:=OBJECT Get pointer(Object named;"WelcomeText_Lbl")
 			If (Nil($vP_WelcomeLbl))
 				ALERT("Could not get welcome label pointer")
-			Else 
+			Else
 				$vP_WelcomeLbl->:="\n\nWelcome to\n\n"+String(Current date;System date long)
 				OBJECT SET VERTICAL ALIGNMENT($vP_WelcomeLbl;Align center)
-			End if 
-		End if 
-		
+			End if
+		End if
+	
 	: ($vL_FormEvent=On Clicked)
 		DBG_Log ("Event = On Clicked")
-		
+	
 		  // handle the buttons
-		Case of 
+		Case of
 			: (vB_closeWelcomeBtn=1)
 				<>vB_isQuitting:=True
 				If (<>vL_UtilitiesDialogProcID>=1)
 					CALL PROCESS(<>vL_UtilitiesDialogProcID)
-				End if 
-				
+				End if
+			
 				<>vB_bg_continue:=False
 				CANCEL
-				
+			
 			: (vB_showEmployeesBtn=1)
-				EVT_ShowEmployees 
-				
+				EVT_ShowEmployees
+			
 			: (vB_showMeetingsBtn=1)
-				EVT_ShowMeetings 
-				
-		End case 
-		
+				EVT_ShowMeetings
+			
+		End case
+	
 	: ($vL_formEvent=On Close Box)
 		DBG_Log ("Event = On Close Box")
-		
+	
 		<>vB_isQuitting:=True
 		If (<>vL_UtilitiesDialogProcID>=1)
 			CALL PROCESS(<>vL_UtilitiesDialogProcID)
-		End if 
-		
+		End if
+	
 		<>vB_bg_continue:=False
 		CANCEL
-		
-	Else 
+	
+	Else
 		DBG_Log ("Event = "+String($vL_formEvent))
-		
-End case 
+	
+End case
 
-DBG_EndMethod 
+DBG_EndMethod
