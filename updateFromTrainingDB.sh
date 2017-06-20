@@ -167,7 +167,7 @@ function usage()
 
 localDir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-if [[ $# -gt 2 || ($# -eq 1 && $1 =~ "^--h") ]]; then
+if [[ $# -lt 1 || ($# -ge 1 && $1 =~ "^--h") ]]; then
     usage
     exit 1
 fi
@@ -192,7 +192,7 @@ fi
 
 traceEcho "Process args"
 
-trainingDBPath="$(sed -r "s%/$%%" <<< "${1:-../trainingDB}")"
+trainingDBPath="$(sed -r "s%/$%%" <<< "$1")"
 dbgVar trainingDBPath
 
 traceEcho "Validate args"
@@ -225,6 +225,10 @@ find "$trainingDBPath" -type f | while read infile; do
     else
         dbgVar outfile
         # outfile does not exist, copy it
+        outpath="$(dirname "$outfile")"
+        if [[ ! -d $outpath ]]; then
+            mkdir -pv "$outpath" || die "Could not make output path [$outpath]"
+        fi
         cp -pv "$infile" "$outfile" || die "Failed copying new file [$infile]"
         git add "$outfile" || die "Could not add new file [$outfile] to git"
     fi
