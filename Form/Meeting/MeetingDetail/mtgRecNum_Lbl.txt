@@ -1,1 +1,6 @@
-  //%attributes = {"lang":"en"} comment added and reserved by 4D.If (Selected record number([Meeting])<0)	vT_mtgRecNum:=""Else 	vT_mtgRecNum:=String(Selected record number([Meeting]))+" of "+String(Records in selection([Meeting]))End if 
+  //%attributes = {"lang":"en"} comment added and reserved by 4D.
+If (Selected record number([Meeting])<0)
+	vT_mtgRecNum:=""
+Else 
+	vT_mtgRecNum:=String(Selected record number([Meeting]))+" of "+String(Records in selection([Meeting]))
+End if 

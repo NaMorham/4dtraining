@@ -1,1 +1,36 @@
-  //%attributes = {"lang":"en"} comment added and reserved by 4D.  //Project Method: RandomRange(vL_Max;{vL_Min=0}) -> LongInt  //  //   Parameter        Type             Description  //    vL_Max          Long Int   <-    Maximum possible value of the random range  //    vL_Min          Long Int   <-    Minimum possible value of the random range  //    vL_result       Long Int   ->    Random number in the range (vL_Min <= result <= vL_Max)  //  //Description:  //     //  //Date        Init  Description  //===============================================================================  //04/05/2017   AH   Initial version.C_LONGINT($0;$1;$2;$vL_Max;$vL_Min)$vL_Max:=$1If (Count parameters=2)	$vL_Min:=$2Else 	$vL_Min:=0End if If ($vL_Min=$vL_Max)	$0:=$vL_Max  // stupid but valid caseElse 	If ($vL_Max<$vL_Min)  // swap them, so the maths works		C_LONGINT($vL_temp)		$vL_temp:=$vL_Max		$vL_Max:=$vL_Min		$vL_Min:=$vL_temp	End if 		$0:=(Random%($vL_Max-$vL_Min+1))+$vL_MinEnd if 
+  //%attributes = {"lang":"en"} comment added and reserved by 4D.
+  //Project Method: RandomRange(vL_Max;{vL_Min=0}) -> LongInt
+  //
+  //   Parameter        Type             Description
+  //    vL_Max          Long Int   <-    Maximum possible value of the random range
+  //    vL_Min          Long Int   <-    Minimum possible value of the random range
+  //    vL_result       Long Int   ->    Random number in the range (vL_Min <= result <= vL_Max)
+  //
+  //Description:
+  //   
+  //
+  //Date        Init  Description
+  //===============================================================================
+  //04/05/2017   AH   Initial version.
+
+C_LONGINT($0;$1;$2;$vL_Max;$vL_Min)
+
+$vL_Max:=$1
+If (Count parameters=2)
+	$vL_Min:=$2
+Else 
+	$vL_Min:=0
+End if 
+
+If ($vL_Min=$vL_Max)
+	$0:=$vL_Max  // stupid but valid case
+Else 
+	If ($vL_Max<$vL_Min)  // swap them, so the maths works
+		C_LONGINT($vL_temp)
+		$vL_temp:=$vL_Max
+		$vL_Max:=$vL_Min
+		$vL_Min:=$vL_temp
+	End if 
+	
+	$0:=(Random%($vL_Max-$vL_Min+1))+$vL_Min
+End if 

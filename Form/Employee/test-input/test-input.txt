@@ -1,1 +1,29 @@
-  //%attributes = {"lang":"en"} comment added and reserved by 4D.  //Project Method: [Employee].GeneratedInput  //  //   Parameter        Type             Description  //  //Description:  //     //  //Date        Init  Description  //===============================================================================  //02/05/2017   ??   Initial version.DBG_BeginMethod (Current method name;True)C_LONGINT($vL_FormEvent)$vL_FormEvent:=Form eventCase of 	: ($vL_FormEvent=On Load Record)		DBG_Log ("Form [test-input] load record")			: ($vL_FormEvent=On Load)		DBG_Log ("Form [test-input] load form")			: ($vL_FormEvent=On Validate)		DBG_Log ("Form [test-input] On Validate - check for changes, and update")		End case DBG_EndMethod 
+  //%attributes = {"lang":"en"} comment added and reserved by 4D.
+  //Project Method: [Employee].GeneratedInput
+  //
+  //   Parameter        Type             Description
+  //
+  //Description:
+  //   
+  //
+  //Date        Init  Description
+  //===============================================================================
+  //02/05/2017   ??   Initial version.
+DBG_BeginMethod (Current method name;True)
+
+C_LONGINT($vL_FormEvent)
+$vL_FormEvent:=Form event
+
+Case of 
+	: ($vL_FormEvent=On Load Record)
+		DBG_Log ("Form [test-input] load record")
+		
+	: ($vL_FormEvent=On Load)
+		DBG_Log ("Form [test-input] load form")
+		
+	: ($vL_FormEvent=On Validate)
+		DBG_Log ("Form [test-input] On Validate - check for changes, and update")
+		
+End case 
+
+DBG_EndMethod 

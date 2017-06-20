@@ -1,1 +1,17 @@
-  //%attributes = {"lang":"en"} comment added and reserved by 4D.  //Project Method: DBG_EndMethod  //  //   Parameter        Type             Description  //  //Description:  //     //  //Date        Init  Description  //===============================================================================  //15/05/2017   AH   Initial version.If (Type(aT_callStack)=Text array)	DBG_Log ("End method")	DELETE FROM ARRAY(aT_callStack;Size of array(aT_callStack))End if 
+  //%attributes = {"lang":"en"} comment added and reserved by 4D.
+  //Project Method: DBG_EndMethod
+  //
+  //   Parameter        Type             Description
+  //
+  //Description:
+  //   
+  //
+  //Date        Init  Description
+  //===============================================================================
+  //15/05/2017   AH   Initial version.
+
+If (Type(aT_callStack)=Text array)
+	DBG_Log ("End method")
+	DELETE FROM ARRAY(aT_callStack;Size of array(aT_callStack))
+End if 
+

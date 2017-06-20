@@ -1,1 +1,35 @@
-  //%attributes = {"lang":"en"} comment added and reserved by 4D.  //Project Method: ShowUtilsDialog  //  //   Parameter        Type             Description  //  //Description:  //     //  //Date        Init  Description  //===============================================================================  //26/05/2017   AH   Initial version.DBG_BeginMethod (Current process name)  // First check if we are actually runningIf (<>vL_UtilitiesDialogProcID<1)	<>vL_UtilitiesDialogProcID:=New process("ShowUtilsDialog";32*1024;"Utils Proc")Else 	  // we have a process, see if we need to create a dialog	If (<>vL_UtilitiesDialogID<1)		DBG_Log ("Load new Welcome dialog")		<>vL_UtilitiesDialogID:=Open form window("Utilities")		SET WINDOW RECT(5;5;525;45;<>vL_UtilitiesDialogID)		  //<>vL_UtilitiesDialogID:=Open window(5;5;535;80;Palette window;"Utilities")				DIALOG("Utilities")		CLOSE WINDOW(<>vL_UtilitiesDialogID)		<>vL_UtilitiesDialogID:=-1		<>vL_UtilitiesDialogProcID:=-1	Else 		BRING TO FRONT(<>vL_UtilitiesDialogProcID)	End if End if DBG_EndMethod 
+  //%attributes = {"lang":"en"} comment added and reserved by 4D.
+  //Project Method: ShowUtilsDialog
+  //
+  //   Parameter        Type             Description
+  //
+  //Description:
+  //   
+  //
+  //Date        Init  Description
+  //===============================================================================
+  //26/05/2017   AH   Initial version.
+
+DBG_BeginMethod (Current process name)
+
+  // First check if we are actually running
+If (<>vL_UtilitiesDialogProcID<1)
+	<>vL_UtilitiesDialogProcID:=New process("ShowUtilsDialog";32*1024;"Utils Proc")
+Else 
+	  // we have a process, see if we need to create a dialog
+	If (<>vL_UtilitiesDialogID<1)
+		DBG_Log ("Load new Welcome dialog")
+		<>vL_UtilitiesDialogID:=Open form window("Utilities")
+		SET WINDOW RECT(5;5;525;45;<>vL_UtilitiesDialogID)
+		  //<>vL_UtilitiesDialogID:=Open window(5;5;535;80;Palette window;"Utilities")
+		
+		DIALOG("Utilities")
+		CLOSE WINDOW(<>vL_UtilitiesDialogID)
+		<>vL_UtilitiesDialogID:=-1
+		<>vL_UtilitiesDialogProcID:=-1
+	Else 
+		BRING TO FRONT(<>vL_UtilitiesDialogProcID)
+	End if 
+End if 
+
+DBG_EndMethod 

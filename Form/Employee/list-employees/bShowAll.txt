@@ -1,1 +1,2 @@
-  //%attributes = {"lang":"en"} comment added and reserved by 4D.ALL RECORDS([Employee])
+  //%attributes = {"lang":"en"} comment added and reserved by 4D.
+ALL RECORDS([Employee])

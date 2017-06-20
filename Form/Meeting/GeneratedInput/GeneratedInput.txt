@@ -1,1 +1,36 @@
-  //%attributes = {"lang":"en"} comment added and reserved by 4D.  //Project Method: [Meeting].GeneratedInput  //  //   Parameter        Type             Description  //  //Description:  //     //  //Date        Init  Description  //===============================================================================  //16/05/2017   AH   Initial version.DBG_BeginMethod (Current method name)C_LONGINT($vL_FormEvent)$vL_FormEvent:=Form eventCase of 	: ($vL_FormEvent=On Data Change)		C_BOOLEAN($vB_saveOK)		$vB_saveOK:=((OK=1) & ([Meeting]Emp_ID_Fk#"") & ([Meeting]Topic#"") & ([Meeting]StartDate#!00-00-00!) & ([Meeting]startTime#?00:00:00?))		DBG_Log ("vB_saveOK - "+String_BoolEnableDisable ($vB_saveOK))				If ($vB_saveOK)			_o_ENABLE BUTTON(*;"validate_Btn")			_o_ENABLE BUTTON(*;"delete_Btn")		Else 			_o_DISABLE BUTTON(*;"validate_Btn")			_o_DISABLE BUTTON(*;"delete_Btn")		End if 		End case DBG_EndMethod 
+  //%attributes = {"lang":"en"} comment added and reserved by 4D.
+  //Project Method: [Meeting].GeneratedInput
+  //
+  //   Parameter        Type             Description
+  //
+  //Description:
+  //   
+  //
+  //Date        Init  Description
+  //===============================================================================
+  //16/05/2017   AH   Initial version.
+
+
+DBG_BeginMethod (Current method name)
+
+C_LONGINT($vL_FormEvent)
+$vL_FormEvent:=Form event
+
+Case of 
+	: ($vL_FormEvent=On Data Change)
+		C_BOOLEAN($vB_saveOK)
+		$vB_saveOK:=((OK=1) & ([Meeting]Emp_ID_Fk#"") & ([Meeting]Topic#"") & ([Meeting]StartDate#!00-00-00!) & ([Meeting]startTime#?00:00:00?))
+		DBG_Log ("vB_saveOK - "+String_BoolEnableDisable ($vB_saveOK))
+		
+		If ($vB_saveOK)
+			_o_ENABLE BUTTON(*;"validate_Btn")
+			_o_ENABLE BUTTON(*;"delete_Btn")
+		Else 
+			_o_DISABLE BUTTON(*;"validate_Btn")
+			_o_DISABLE BUTTON(*;"delete_Btn")
+		End if 
+		
+End case 
+
+
+DBG_EndMethod 

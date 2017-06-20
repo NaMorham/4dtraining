@@ -1,1 +1,14 @@
-  //%attributes = {"lang":"en"} comment added and reserved by 4D.  //Project Method: MNU_SelectEmployees  //  //   Parameter        Type             Description  //  //Description:  //     //  //Date        Init  Description  //===============================================================================  //09/05/2017   AH   Initial version.<>vL_mainFormPageID:=1ShowMainForm 
+  //%attributes = {"lang":"en"} comment added and reserved by 4D.
+  //Project Method: MNU_SelectEmployees
+  //
+  //   Parameter        Type             Description
+  //
+  //Description:
+  //   
+  //
+  //Date        Init  Description
+  //===============================================================================
+  //09/05/2017   AH   Initial version.
+
+<>vL_mainFormPageID:=1
+ShowMainForm 

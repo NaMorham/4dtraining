@@ -1,1 +1,41 @@
-  //%attributes = {"lang":"en"} comment added and reserved by 4D.  //Project Method: Text_FileToText($vT_filename) -> Text  //  //   Parameter        Type             Description  //    $vT_filename    Text     <-      The full path/name to the file  //    $vT_TextBuffer  Text     ->      The resulting Text (file content)  //  //Description:  //   Read a text file, strip off stupid windows line endings, return the text  //  //Date        Init  Description  //===============================================================================  //30/05/2017   AH   Initial version.DBG_BeginMethod (Current method name)C_TEXT($1;$vT_filename)$vT_filename:=$1C_TEXT($0;$vT_TextBuffer)$vT_TextBuffer:=""  // Try and actually verify and read the file before anythng elseIf (Test path name($vT_filename)#Is a document)	ALERT("Import path ["+$vT_filename+"] does not resolve to a file")	Else 	$vT_TextBuffer:=Document to text($vT_filename)		  // Preserve current selection	CREATE SET([Employee];"Current Selection")		  // Fix up stupid line endings <--- Grr Windows	$vT_TextBuffer:=Replace string($vT_TextBuffer;"\r\n";"\n";*)	$vT_TextBuffer:=Replace string($vT_TextBuffer;"\r";"\n";*)	End if $0:=$vT_TextBufferDBG_EndMethod 
+  //%attributes = {"lang":"en"} comment added and reserved by 4D.
+  //Project Method: Text_FileToText($vT_filename) -> Text
+  //
+  //   Parameter        Type             Description
+  //    $vT_filename    Text     <-      The full path/name to the file
+  //    $vT_TextBuffer  Text     ->      The resulting Text (file content)
+  //
+  //Description:
+  //   Read a text file, strip off stupid windows line endings, return the text
+  //
+  //Date        Init  Description
+  //===============================================================================
+  //30/05/2017   AH   Initial version.
+
+DBG_BeginMethod (Current method name)
+
+C_TEXT($1;$vT_filename)
+$vT_filename:=$1
+
+C_TEXT($0;$vT_TextBuffer)
+$vT_TextBuffer:=""
+
+  // Try and actually verify and read the file before anythng else
+If (Test path name($vT_filename)#Is a document)
+	ALERT("Import path ["+$vT_filename+"] does not resolve to a file")
+	
+Else 
+	$vT_TextBuffer:=Document to text($vT_filename)
+	
+	  // Preserve current selection
+	CREATE SET([Employee];"Current Selection")
+	
+	  // Fix up stupid line endings <--- Grr Windows
+	$vT_TextBuffer:=Replace string($vT_TextBuffer;"\r\n";"\n";*)
+	$vT_TextBuffer:=Replace string($vT_TextBuffer;"\r";"\n";*)
+	
+End if 
+
+$0:=$vT_TextBuffer
+
+DBG_EndMethod 

@@ -1,1 +1,95 @@
-  //%attributes = {"shared":true,"lang":"en"} comment added and reserved by 4D.  //Project Method: INIT_Globals  //  //   Parameter        Type             Description  //  //Description:  //     //  //Date        Init  Description  //===============================================================================  //08/05/2017   AH   Initial version.  // DO NOT USE THE DEBUG LOGGER HERE - C_TEXT(<>CR;<>LF;<>QU;<>SQ;<>TB;<>SP;<>DSEP)<>TB:=Char(Tab)<>CR:=Char(Carriage return)<>LF:=Char(Line feed)<>SP:=Char(Space)<>QU:=Char(Double quote)  // Quote<>SQ:=Char(Quote)  //Single QuoteC_LONGINT(<>vL_platform;<>vL_system)PLATFORM PROPERTIES(<>vL_platform;<>vL_system)If (<>vL_platform=Mac OS)	<>DSEP:=":"Else 	<>DSEP:="\\"End if   // Dialog/Form handlers  //// The utilities formC_LONGINT(<>vL_UtilitiesDialogID;<>vL_UtilitiesDialogProcID)<>vL_UtilitiesDialogID:=-1<>vL_UtilitiesDialogProcID:=-1  //// WelcomeC_LONGINT(<>vL_WelcomeDialogID;<>vL_WelcomeDialogProcID)<>vL_WelcomeDialogID:=-1<>vL_WelcomeDialogProcID:=-1  //// The main form (employee/meeting pages)C_LONGINT(<>vL_mainFormPageID;<>vL_mainFormID;<>vL_mainFormProcID)<>vL_mainFormPageID:=-1  // Which page of the main window are we on<>vL_mainFormProcID:=-1  // The proecss ID of the main window (so we can bring to front and so on)<>vL_mainFormID:=-1  // Window ID of the main form (for redraw window calls)  //// The employee detail formC_LONGINT(<>vL_editEmployeeFormProcID;<>vL_editEmployeeFormID)<>vL_editEmployeeFormProcID:=-1<>vL_editEmployeeFormID:=-1  // Window ID of the edit/add employee form   //// The meeting detail formC_LONGINT(<>vL_editMeetingFormProcID;<>vL_editMeetingFormID)<>vL_editMeetingFormProcID:=-1<>vL_editMeetingFormID:=-1  //// The meeting attendees selection formC_LONGINT(<>vL_attendeeSelectionFormProcID;<>vL_attendeeSelectionFormID)<>vL_attendeeSelectionFormProcID:=-1<>vL_attendeeSelectionFormID:=-1  // Other process and IDsC_LONGINT(<>vL_testProcessID)<>vL_testProcessID:=-1  // The ID of the background process   // Background process times and countersC_LONGINT(<>vL_bg_fireCount;<>vL_bg_tickDelay)<>vL_bg_fireCount:=0<>vL_bg_tickDelay:=60*5  // Every 5 seconds for nowC_TIME(<>vH_bg_lastFired;<>vH_bg_timeDelta)<>vH_bg_lastFired:=Current time<>vH_bg_triggerTimeDelta:=?00:15:00?C_DATE(<>vD_bg_lastFired)<>vD_bg_lastFired:=Current date  // General use for all forms/processesC_BOOLEAN(<>vB_bg_continue;<>vB_isQuitting)<>vB_bg_continue:=True<>vB_isQuitting:=False  // Default image if a user does not have one definedC_PICTURE(<>vO_noProfilePic)GET PICTURE FROM LIBRARY("UnknownPerson.Icon.png";<>vO_noProfilePic)  // needed for constants processing - the 'json' object and populated arraysC_OBJECT(<>vO_constants)ARRAY TEXT(<>aT_eventNames;0)ARRAY TEXT(<>aT_typeNames;0)ARRAY LONGINT(<>aL_eventValues;0)ARRAY LONGINT(<>aL_typeValues;0)
+  //%attributes = {"shared":true,"lang":"en"} comment added and reserved by 4D.
+  //Project Method: INIT_Globals
+  //
+  //   Parameter        Type             Description
+  //
+  //Description:
+  //   
+  //
+  //Date        Init  Description
+  //===============================================================================
+  //08/05/2017   AH   Initial version.
+
+  // DO NOT USE THE DEBUG LOGGER HERE - 
+
+C_TEXT(<>CR;<>LF;<>QU;<>SQ;<>TB;<>SP;<>DSEP)
+<>TB:=Char(Tab)
+<>CR:=Char(Carriage return)
+<>LF:=Char(Line feed)
+<>SP:=Char(Space)
+<>QU:=Char(Double quote)  // Quote
+<>SQ:=Char(Quote)  //Single Quote
+
+C_LONGINT(<>vL_platform;<>vL_system)
+PLATFORM PROPERTIES(<>vL_platform;<>vL_system)
+
+If (<>vL_platform=Mac OS)
+	<>DSEP:=":"
+Else 
+	<>DSEP:="\\"
+End if 
+
+  // Dialog/Form handlers
+
+  //// The utilities form
+C_LONGINT(<>vL_UtilitiesDialogID;<>vL_UtilitiesDialogProcID)
+<>vL_UtilitiesDialogID:=-1
+<>vL_UtilitiesDialogProcID:=-1
+
+  //// Welcome
+C_LONGINT(<>vL_WelcomeDialogID;<>vL_WelcomeDialogProcID)
+<>vL_WelcomeDialogID:=-1
+<>vL_WelcomeDialogProcID:=-1
+
+  //// The main form (employee/meeting pages)
+C_LONGINT(<>vL_mainFormPageID;<>vL_mainFormID;<>vL_mainFormProcID)
+<>vL_mainFormPageID:=-1  // Which page of the main window are we on
+<>vL_mainFormProcID:=-1  // The proecss ID of the main window (so we can bring to front and so on)
+<>vL_mainFormID:=-1  // Window ID of the main form (for redraw window calls)
+
+  //// The employee detail form
+C_LONGINT(<>vL_editEmployeeFormProcID;<>vL_editEmployeeFormID)
+<>vL_editEmployeeFormProcID:=-1
+<>vL_editEmployeeFormID:=-1  // Window ID of the edit/add employee form 
+
+  //// The meeting detail form
+C_LONGINT(<>vL_editMeetingFormProcID;<>vL_editMeetingFormID)
+<>vL_editMeetingFormProcID:=-1
+<>vL_editMeetingFormID:=-1
+
+  //// The meeting attendees selection form
+C_LONGINT(<>vL_attendeeSelectionFormProcID;<>vL_attendeeSelectionFormID)
+<>vL_attendeeSelectionFormProcID:=-1
+<>vL_attendeeSelectionFormID:=-1
+
+  // Other process and IDs
+C_LONGINT(<>vL_testProcessID)
+<>vL_testProcessID:=-1  // The ID of the background process 
+
+  // Background process times and counters
+C_LONGINT(<>vL_bg_fireCount;<>vL_bg_tickDelay)
+<>vL_bg_fireCount:=0
+<>vL_bg_tickDelay:=60*5  // Every 5 seconds for now
+
+C_TIME(<>vH_bg_lastFired;<>vH_bg_timeDelta)
+<>vH_bg_lastFired:=Current time
+<>vH_bg_triggerTimeDelta:=?00:15:00?
+
+C_DATE(<>vD_bg_lastFired)
+<>vD_bg_lastFired:=Current date
+
+  // General use for all forms/processes
+C_BOOLEAN(<>vB_bg_continue;<>vB_isQuitting)
+<>vB_bg_continue:=True
+<>vB_isQuitting:=False
+
+  // Default image if a user does not have one defined
+C_PICTURE(<>vO_noProfilePic)
+GET PICTURE FROM LIBRARY("UnknownPerson.Icon.png";<>vO_noProfilePic)
+
+  // needed for constants processing - the 'json' object and populated arrays
+C_OBJECT(<>vO_constants)
+ARRAY TEXT(<>aT_eventNames;0)
+ARRAY TEXT(<>aT_typeNames;0)
+ARRAY LONGINT(<>aL_eventValues;0)
+ARRAY LONGINT(<>aL_typeValues;0)

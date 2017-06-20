@@ -1,1 +1,2 @@
-  //%attributes = {"lang":"en"} comment added and reserved by 4D.ORDER BY(Current form table->)
+  //%attributes = {"lang":"en"} comment added and reserved by 4D.
+ORDER BY(Current form table->)

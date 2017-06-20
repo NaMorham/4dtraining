@@ -1,1 +1,29 @@
-  //%attributes = {"lang":"en"} comment added and reserved by 4D.  //Project Method: test_catch  //  //   Parameter        Type             Description  //  //Description:  //     //  //Date        Init  Description  //===============================================================================  //16/05/2017   AH   Initial version.DBG_BeginMethod (Current method name)C_LONGINT($vL_numParams;$vL_typeNum;$vL_index)$vL_numParams:=Count parametersFor ($vL_index;1;$vL_numParams)	$vL_typeNum:=Type(${$vL_index})	DBG_Log ("Param ["+String($vL_index)+"] is type ["+String($vL_typeNum)+"]")End for C_OBJECT($vO_testObject)$vO_testObject:=Get locked records info([Meeting])DBG_Log (JSON Stringify($vO_testObject))DBG_EndMethod 
+  //%attributes = {"lang":"en"} comment added and reserved by 4D.
+  //Project Method: test_catch
+  //
+  //   Parameter        Type             Description
+  //
+  //Description:
+  //   
+  //
+  //Date        Init  Description
+  //===============================================================================
+  //16/05/2017   AH   Initial version.
+
+DBG_BeginMethod (Current method name)
+
+C_LONGINT($vL_numParams;$vL_typeNum;$vL_index)
+$vL_numParams:=Count parameters
+
+For ($vL_index;1;$vL_numParams)
+	$vL_typeNum:=Type(${$vL_index})
+	DBG_Log ("Param ["+String($vL_index)+"] is type ["+String($vL_typeNum)+"]")
+End for 
+
+
+C_OBJECT($vO_testObject)
+$vO_testObject:=Get locked records info([Meeting])
+
+DBG_Log (JSON Stringify($vO_testObject))
+
+DBG_EndMethod 

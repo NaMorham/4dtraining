@@ -1,1 +1,6 @@
-  //%attributes = {"lang":"en"} comment added and reserved by 4D.If (Selected record number([Employee])<0)	vT_recNum:=""Else 	vT_recNum:=String(Selected record number([Employee]))+" of "+String(Records in selection([Employee]))End if 
+  //%attributes = {"lang":"en"} comment added and reserved by 4D.
+If (Selected record number([Employee])<0)
+	vT_recNum:=""
+Else 
+	vT_recNum:=String(Selected record number([Employee]))+" of "+String(Records in selection([Employee]))
+End if 

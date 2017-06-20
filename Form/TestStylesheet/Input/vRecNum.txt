@@ -1,1 +1,2 @@
-  //%attributes = {"lang":"en"} comment added and reserved by 4D.vRecNum:=Choose(Selected record number(Current form table->)<0;"";String(Selected record number(Current form table->))+" / "+String(Records in selection(Current form table->)))
+  //%attributes = {"lang":"en"} comment added and reserved by 4D.
+vRecNum:=Choose(Selected record number(Current form table->)<0;"";String(Selected record number(Current form table->))+" / "+String(Records in selection(Current form table->)))

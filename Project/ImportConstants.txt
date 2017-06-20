@@ -1,1 +1,120 @@
-  //%attributes = {"lang":"en"} comment added and reserved by 4D.  //Project Method: ImportConstants  //  //   Parameter        Type             Description  //  //Description:  //     //  //Date        Init  Description  //===============================================================================  //30/05/2017   AH   Initial version.DBG_BeginMethod (Current method name)C_TEXT($vT_resFolder;$vT_constantsJsonPath;$vT_constantsJson)$vT_resFolder:=Get 4D folder(Current resources folder)DBG_Log ("Resource folder ["+$vT_resFolder+"]")$vT_constantsJsonPath:=$vT_resFolder+"metadata"+<>DSEP+"constants.json"DBG_Log ("Read json file at ["+$vT_constantsJsonPath+"]")$vT_constantsJson:=FileToText ($vT_constantsJsonPath)If (Type(<>vO_constants)=Is undefined)	C_OBJECT(<>vO_constants)End if <>vO_constants:=JSON Parse($vT_constantsJson)  // create or resize to 0ARRAY TEXT(<>aT_eventNames;0)ARRAY TEXT(<>aT_typeNames;0)ARRAY LONGINT(<>aL_eventValues;0)ARRAY LONGINT(<>aL_typeValues;0)C_BOOLEAN($vB_continue)$vB_continue:=True  // example structure  // {"extractedConstants": [  //   {"groupname": "Form Events","Constants": [  //     {"value": "1","label": "On Load"},  //   ]},  //   {"groupname": "Field and Variable Types","Constants": [  //     {"value": "0","label": "Is alpha field"},  //   ]}  // ]}ARRAY OBJECT($aO_extractedData;0)If (OB Is defined(<>vO_constants;"extractedConstants"))	OB GET ARRAY(<>vO_constants;"extractedConstants";$aO_extractedData)		C_LONGINT($vL_index)		C_POINTER($vP_aT_names;$vP_aL_values)		For ($vL_index;1;Size of array($aO_extractedData))		DBG_Log ("["+String($vL_index)+"/"+String(Size of array($aO_extractedData))+"] Procecss Object <<<"+JSON Stringify($aO_extractedData{$vL_index})+">>>")				$vB_continue:=True				  // get the group name		C_TEXT($vT_groupName)		$vT_groupName:=OB Get($aO_extractedData{$vL_index};"groupname")		DBG_Log ("Found \"groupname\": \""+$vT_groupName+"\"")				Case of 			: ($vT_groupName="Form Events")				$vP_aT_names:=-><>aT_eventNames				$vP_aL_values:=-><>aL_eventValues							: ($vT_groupName="Field and Variable Types")				$vP_aT_names:=-><>aT_typeNames				$vP_aL_values:=-><>aL_typeValues							Else 				DBG_Log ("Unknown group ["+$vT_groupName+"] - skipping")				$vB_continue:=False						End case 				If ($vB_continue)			  // now the actual values			ARRAY OBJECT($aO_c1;0)						If (Not(OB Is defined($aO_extractedData{$vL_index};"Constants")))				DBG_Log ("Constants are not defined for group ["+$vT_groupName+"]")							Else 				OB GET ARRAY($aO_extractedData{$vL_index};"Constants";$aO_c1)								  // should now have an array ov name value objects				C_LONGINT($vL_valIndex)				For ($vL_valIndex;1;Size of array($aO_c1))					DBG_Log ("["+String($vL_valIndex)+"/"+String(Size of array($aO_c1))+"] Process entry ["+JSON Stringify($aO_c1{$vL_valIndex})+"]")										Case of 						: (Not(OB Is defined($aO_c1{$vL_valIndex};"label")))							DBG_Log ("No label defined")													: (Not(OB Is defined($aO_c1{$vL_valIndex};"value")))							DBG_Log ("No value defined")													Else 							APPEND TO ARRAY($vP_aT_names->;OB Get($aO_c1{$vL_valIndex};"label"))							APPEND TO ARRAY($vP_aL_values->;OB Get($aO_c1{$vL_valIndex};"value";Is longint))												End case 									End for 							End if 					End if 			End for Else 	DBG_Log ("Constants file ["+$vT_constantsJsonPath+"] does not contain an \"extractedConstants\" key")End if DBG_EndMethod 
+  //%attributes = {"lang":"en"} comment added and reserved by 4D.
+  //Project Method: ImportConstants
+  //
+  //   Parameter        Type             Description
+  //
+  //Description:
+  //   
+  //
+  //Date        Init  Description
+  //===============================================================================
+  //30/05/2017   AH   Initial version.
+
+DBG_BeginMethod (Current method name)
+
+C_TEXT($vT_resFolder;$vT_constantsJsonPath;$vT_constantsJson)
+$vT_resFolder:=Get 4D folder(Current resources folder)
+DBG_Log ("Resource folder ["+$vT_resFolder+"]")
+
+$vT_constantsJsonPath:=$vT_resFolder+"metadata"+<>DSEP+"constants.json"
+DBG_Log ("Read json file at ["+$vT_constantsJsonPath+"]")
+$vT_constantsJson:=FileToText ($vT_constantsJsonPath)
+
+If (Type(<>vO_constants)=Is undefined)
+	C_OBJECT(<>vO_constants)
+End if 
+
+<>vO_constants:=JSON Parse($vT_constantsJson)
+
+  // create or resize to 0
+ARRAY TEXT(<>aT_eventNames;0)
+ARRAY TEXT(<>aT_typeNames;0)
+ARRAY LONGINT(<>aL_eventValues;0)
+ARRAY LONGINT(<>aL_typeValues;0)
+
+C_BOOLEAN($vB_continue)
+$vB_continue:=True
+
+  // example structure
+  // {"extractedConstants": [
+  //   {"groupname": "Form Events","Constants": [
+  //     {"value": "1","label": "On Load"},
+  //   ]},
+  //   {"groupname": "Field and Variable Types","Constants": [
+  //     {"value": "0","label": "Is alpha field"},
+  //   ]}
+  // ]}
+ARRAY OBJECT($aO_extractedData;0)
+
+If (OB Is defined(<>vO_constants;"extractedConstants"))
+	OB GET ARRAY(<>vO_constants;"extractedConstants";$aO_extractedData)
+	
+	C_LONGINT($vL_index)
+	
+	C_POINTER($vP_aT_names;$vP_aL_values)
+	
+	For ($vL_index;1;Size of array($aO_extractedData))
+		DBG_Log ("["+String($vL_index)+"/"+String(Size of array($aO_extractedData))+"] Procecss Object <<<"+JSON Stringify($aO_extractedData{$vL_index})+">>>")
+		
+		$vB_continue:=True
+		
+		  // get the group name
+		C_TEXT($vT_groupName)
+		$vT_groupName:=OB Get($aO_extractedData{$vL_index};"groupname")
+		DBG_Log ("Found \"groupname\": \""+$vT_groupName+"\"")
+		
+		Case of 
+			: ($vT_groupName="Form Events")
+				$vP_aT_names:=-><>aT_eventNames
+				$vP_aL_values:=-><>aL_eventValues
+				
+			: ($vT_groupName="Field and Variable Types")
+				$vP_aT_names:=-><>aT_typeNames
+				$vP_aL_values:=-><>aL_typeValues
+				
+			Else 
+				DBG_Log ("Unknown group ["+$vT_groupName+"] - skipping")
+				$vB_continue:=False
+				
+		End case 
+		
+		If ($vB_continue)
+			  // now the actual values
+			ARRAY OBJECT($aO_c1;0)
+			
+			If (Not(OB Is defined($aO_extractedData{$vL_index};"Constants")))
+				DBG_Log ("Constants are not defined for group ["+$vT_groupName+"]")
+				
+			Else 
+				OB GET ARRAY($aO_extractedData{$vL_index};"Constants";$aO_c1)
+				
+				  // should now have an array ov name value objects
+				C_LONGINT($vL_valIndex)
+				For ($vL_valIndex;1;Size of array($aO_c1))
+					DBG_Log ("["+String($vL_valIndex)+"/"+String(Size of array($aO_c1))+"] Process entry ["+JSON Stringify($aO_c1{$vL_valIndex})+"]")
+					
+					Case of 
+						: (Not(OB Is defined($aO_c1{$vL_valIndex};"label")))
+							DBG_Log ("No label defined")
+							
+						: (Not(OB Is defined($aO_c1{$vL_valIndex};"value")))
+							DBG_Log ("No value defined")
+							
+						Else 
+							APPEND TO ARRAY($vP_aT_names->;OB Get($aO_c1{$vL_valIndex};"label"))
+							APPEND TO ARRAY($vP_aL_values->;OB Get($aO_c1{$vL_valIndex};"value";Is longint))
+							
+					End case 
+					
+				End for 
+				
+			End if 
+			
+		End if 
+		
+	End for 
+Else 
+	DBG_Log ("Constants file ["+$vT_constantsJsonPath+"] does not contain an \"extractedConstants\" key")
+End if 
+
+DBG_EndMethod 

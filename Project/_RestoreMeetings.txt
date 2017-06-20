@@ -1,1 +1,29 @@
-  //%attributes = {"lang":"en"} comment added and reserved by 4D.  //Project Method: _RestoreMeetings  //  //   Parameter        Type             Description  //  //Description:  //   Assumes that some kind of check has been performed before calling this  // function.  This will delete all meetings from the database  //     //  //Date        Init  Description  //===============================================================================  //16/05/2017   AH   Initial version.DBG_BeginMethod (Current method name)ALL RECORDS([Meeting])C_LONGINT($vL_numMeetings)$vL_numMeetings:=Records in selection([Meeting])If ($vL_numMeetings#0)	TRUNCATE TABLE([Meeting])	DBG_Log ("Removed ["+String($vL_numMeetings)+"] meetings")Else 	DBG_Log ("No meetings to remove")End if DBG_EndMethod 
+  //%attributes = {"lang":"en"} comment added and reserved by 4D.
+  //Project Method: _RestoreMeetings
+  //
+  //   Parameter        Type             Description
+  //
+  //Description:
+  //   Assumes that some kind of check has been performed before calling this
+  // function.  This will delete all meetings from the database
+  //   
+  //
+  //Date        Init  Description
+  //===============================================================================
+  //16/05/2017   AH   Initial version.
+
+DBG_BeginMethod (Current method name)
+
+ALL RECORDS([Meeting])
+
+C_LONGINT($vL_numMeetings)
+$vL_numMeetings:=Records in selection([Meeting])
+
+If ($vL_numMeetings#0)
+	TRUNCATE TABLE([Meeting])
+	DBG_Log ("Removed ["+String($vL_numMeetings)+"] meetings")
+Else 
+	DBG_Log ("No meetings to remove")
+End if 
+
+DBG_EndMethod 

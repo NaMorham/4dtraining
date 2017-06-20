@@ -1,1 +1,131 @@
-  //%attributes = {"lang":"en"} comment added and reserved by 4D.  //Project Method: [Employee].test-input.inputManagers_PU  //  //   Parameter        Type             Description  //  //Description:  //     //  //Date        Init  Description  //===============================================================================  //12/05/2017   AH   Initial version.DBG_BeginMethod (Current method name)If (Type(vT_newHostUUID)=Is undefined)	C_TEXT(vT_newHostUUID)	vT_newHostUUID:=""End if If (Type(aT_HostUUIDS)=Is undefined)	ARRAY TEXT(aT_HostUUIDS;0)End if If (Type(aT_inputHosts)=Is undefined)	ARRAY TEXT(aT_inputHosts;0)End if C_LONGINT($vL_FormEvent)$vL_FormEvent:=Form eventCase of 	: ($vL_FormEvent=On Load)		DBG_Log ("On Load")		  // Get a list of employees who are;		  // a) Currently employed (end date is empty or null and after meeting start)				C_TEXT($vT_SelectedUUID;$vT_SelectedHostID)		$vT_SelectedUUID:=[Meeting]ID		$vT_SelectedHostID:=[Meeting]Emp_ID_Fk				  // populate the control, with all current employees at time of start		CREATE SET([Employee];"Current Employee Selection")				C_LONGINT($vL_index)				  // Before adding hosts, ensure the control is empty again		$vL_index:=Size of array(aT_inputHosts)		If ($vL_index>0)			DELETE FROM ARRAY(aT_inputHosts;1;$vL_index)		End if 				  // and the UUID array		$vL_index:=Size of array(aT_HostUUIDS)		If ($vL_index>0)			DELETE FROM ARRAY(aT_HostUUIDS;1;$vL_index)		End if 				ALL RECORDS([Employee])				  // the current hosting employee (if set)		If ([Meeting]Emp_ID_Fk#"000000000000000000000000000000000000")			QUERY([Employee];[Employee]ID=[Meeting]Emp_ID_Fk)			CREATE SET([Employee];"Current meeting host")		Else 			CREATE EMPTY SET([Employee];"Current meeting host")		End if 				  // Employees that have started before the meeting date and not ended by then		ALL RECORDS([Employee])				QUERY([Employee];[Employee]EndDate>[Meeting]StartDate;*)		QUERY([Employee]; | ;[Employee]EndDate=!00-00-00!)		QUERY SELECTION([Employee];[Employee]StartDate<=[Meeting]StartDate;*)				CREATE SET([Employee];"Currently employed")				CREATE EMPTY SET([Employee];"Valid hosts")		UNION("Current meeting host";"Currently employed";"Valid hosts")				CLEAR SET("Current meeting host")		CLEAR SET("Currently employed")				USE SET("Valid hosts")				If (OK=1)			C_LONGINT($vL_numHosts)			$vL_numHosts:=Records in selection([Employee])			If ($vL_numHosts<1)				DBG_Log ("No valid meeting hosts found - employ someone")			Else 				DBG_Log ("Found ["+String($vL_numHosts)+"] valid hosts")				C_LONGINT($vL_index)								For ($vL_index;1;$vL_numHosts)					APPEND TO ARRAY(aT_inputHosts;Uppercase([Employee]Surname)+", "+\						[Employee]FirstName+", "+String([Employee]StartDate))					APPEND TO ARRAY(aT_HostUUIDS;[Employee]ID)										NEXT RECORD([Employee])				End for 												$vL_index:=Find in array(aT_HostUUIDS;$vT_SelectedHostID)				DBG_Log ("Found selected host id ["+$vT_SelectedHostID+"] in array [aT_HostUUIDS] at index ["+String($vL_index)+"]")				aT_inputHosts:=$vL_index				aT_HostUUIDS:=$vL_index								CLEAR SET("Valid hosts")							End if 			  // restore the selection we had before			USE SET("Current Employee Selection")  // is this needed, since this selection is only this process?		End if 			: ($vL_FormEvent=On Clicked)		DBG_Log ("Form ["+String(Current process)+":test-input].inputHost_PU -> On Clicked")		DBG_Log ("Found ["+String(Size of array(aT_HostUUIDS))+"] Hosts")		DBG_Log ("Selected item ["+String(aT_inputHosts)+"]")		DBG_Log ("\tPU Text: ["+String(aT_inputHosts{aT_inputHosts})+"]")		DBG_Log ("\tMatching UUID: ["+aT_HostUUIDS{aT_inputHosts}+"]")		DBG_Log ("Update user ["+String_ShortEmployeeFromUUID (aT_HostUUIDS{aT_inputHosts})+"]")		If (aT_inputHosts#0)			[Meeting]Emp_ID_Fk:=aT_HostUUIDS{aT_inputHosts}		Else 			DBG_Log ("No entry selected for Host ID")		End if 		End case DBG_EndMethod 
+  //%attributes = {"lang":"en"} comment added and reserved by 4D.
+  //Project Method: [Employee].test-input.inputManagers_PU
+  //
+  //   Parameter        Type             Description
+  //
+  //Description:
+  //   
+  //
+  //Date        Init  Description
+  //===============================================================================
+  //12/05/2017   AH   Initial version.
+
+DBG_BeginMethod (Current method name)
+
+
+If (Type(vT_newHostUUID)=Is undefined)
+	C_TEXT(vT_newHostUUID)
+	vT_newHostUUID:=""
+End if 
+
+If (Type(aT_HostUUIDS)=Is undefined)
+	ARRAY TEXT(aT_HostUUIDS;0)
+End if 
+
+If (Type(aT_inputHosts)=Is undefined)
+	ARRAY TEXT(aT_inputHosts;0)
+End if 
+
+C_LONGINT($vL_FormEvent)
+$vL_FormEvent:=Form event
+
+Case of 
+	: ($vL_FormEvent=On Load)
+		DBG_Log ("On Load")
+		  // Get a list of employees who are;
+		  // a) Currently employed (end date is empty or null and after meeting start)
+		
+		C_TEXT($vT_SelectedUUID;$vT_SelectedHostID)
+		$vT_SelectedUUID:=[Meeting]ID
+		$vT_SelectedHostID:=[Meeting]Emp_ID_Fk
+		
+		  // populate the control, with all current employees at time of start
+		CREATE SET([Employee];"Current Employee Selection")
+		
+		C_LONGINT($vL_index)
+		
+		  // Before adding hosts, ensure the control is empty again
+		$vL_index:=Size of array(aT_inputHosts)
+		If ($vL_index>0)
+			DELETE FROM ARRAY(aT_inputHosts;1;$vL_index)
+		End if 
+		
+		  // and the UUID array
+		$vL_index:=Size of array(aT_HostUUIDS)
+		If ($vL_index>0)
+			DELETE FROM ARRAY(aT_HostUUIDS;1;$vL_index)
+		End if 
+		
+		ALL RECORDS([Employee])
+		
+		  // the current hosting employee (if set)
+		If ([Meeting]Emp_ID_Fk#"000000000000000000000000000000000000")
+			QUERY([Employee];[Employee]ID=[Meeting]Emp_ID_Fk)
+			CREATE SET([Employee];"Current meeting host")
+		Else 
+			CREATE EMPTY SET([Employee];"Current meeting host")
+		End if 
+		
+		  // Employees that have started before the meeting date and not ended by then
+		ALL RECORDS([Employee])
+		
+		QUERY([Employee];[Employee]EndDate>[Meeting]StartDate;*)
+		QUERY([Employee]; | ;[Employee]EndDate=!00-00-00!)
+		QUERY SELECTION([Employee];[Employee]StartDate<=[Meeting]StartDate;*)
+		
+		CREATE SET([Employee];"Currently employed")
+		
+		CREATE EMPTY SET([Employee];"Valid hosts")
+		UNION("Current meeting host";"Currently employed";"Valid hosts")
+		
+		CLEAR SET("Current meeting host")
+		CLEAR SET("Currently employed")
+		
+		USE SET("Valid hosts")
+		
+		If (OK=1)
+			C_LONGINT($vL_numHosts)
+			$vL_numHosts:=Records in selection([Employee])
+			If ($vL_numHosts<1)
+				DBG_Log ("No valid meeting hosts found - employ someone")
+			Else 
+				DBG_Log ("Found ["+String($vL_numHosts)+"] valid hosts")
+				C_LONGINT($vL_index)
+				
+				For ($vL_index;1;$vL_numHosts)
+					APPEND TO ARRAY(aT_inputHosts;Uppercase([Employee]Surname)+", "+\
+						[Employee]FirstName+", "+String([Employee]StartDate))
+					APPEND TO ARRAY(aT_HostUUIDS;[Employee]ID)
+					
+					NEXT RECORD([Employee])
+				End for 
+				
+				
+				$vL_index:=Find in array(aT_HostUUIDS;$vT_SelectedHostID)
+				DBG_Log ("Found selected host id ["+$vT_SelectedHostID+"] in array [aT_HostUUIDS] at index ["+String($vL_index)+"]")
+				aT_inputHosts:=$vL_index
+				aT_HostUUIDS:=$vL_index
+				
+				CLEAR SET("Valid hosts")
+				
+			End if 
+			  // restore the selection we had before
+			USE SET("Current Employee Selection")  // is this needed, since this selection is only this process?
+		End if 
+		
+	: ($vL_FormEvent=On Clicked)
+		DBG_Log ("Form ["+String(Current process)+":test-input].inputHost_PU -> On Clicked")
+		DBG_Log ("Found ["+String(Size of array(aT_HostUUIDS))+"] Hosts")
+		DBG_Log ("Selected item ["+String(aT_inputHosts)+"]")
+		DBG_Log ("\tPU Text: ["+String(aT_inputHosts{aT_inputHosts})+"]")
+		DBG_Log ("\tMatching UUID: ["+aT_HostUUIDS{aT_inputHosts}+"]")
+		DBG_Log ("Update user ["+String_ShortEmployeeFromUUID (aT_HostUUIDS{aT_inputHosts})+"]")
+		If (aT_inputHosts#0)
+			[Meeting]Emp_ID_Fk:=aT_HostUUIDS{aT_inputHosts}
+		Else 
+			DBG_Log ("No entry selected for Host ID")
+		End if 
+		
+End case 
+
+DBG_EndMethod 

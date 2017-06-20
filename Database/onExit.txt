@@ -1,1 +1,3 @@
-  //%attributes = {"lang":"en"} comment added and reserved by 4D.DBG_Log ("Exiting 4D ["+String(Current date)+" "+String(Current time)+"]\n\n")<>vB_bg_continue:=False
+  //%attributes = {"lang":"en"} comment added and reserved by 4D.
+DBG_Log ("Exiting 4D ["+String(Current date)+" "+String(Current time)+"]\n\n")
+<>vB_bg_continue:=False

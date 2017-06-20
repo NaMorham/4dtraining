@@ -1,1 +1,335 @@
-  //%attributes = {"lang":"en"} comment added and reserved by 4D.  //Project Method: DBG_TestMethod  //  //   Parameter        Type             Description  //  //Description:  //  //Date        Init  Description  //===============================================================================  //02/05/2017   AH   Initial version.  //19/05/2017   AH   Rewrite out of form.DBG_BeginMethod (Current method name)C_BOOLEAN($vB_testArrays;$vB_testDateParser;$vB_testObjectJSON)C_BOOLEAN($vB_testEventTypeStrings;$vB_testTimestamps;$vB_testPaths)$vB_testArrays:=True$vB_testDateParser:=True$vB_testObjectJSON:=True$vB_testEventTypeStrings:=False$vB_testTimestamps:=False$vB_testPaths:=TrueIf ($vB_testDateParser)	C_DATE($vD_testDate;$vD_NoDate)	C_TEXT($vT_testText)	C_BOOLEAN($vB_testBool)	C_LONGINT($vL_testLong;$vl_testIndex)		$vD_NoDate:=!00-00-00!	DBG_Log ("--------------------------------------------------------")	DBG_Log ("Test normal date parser with reverse date YYYY/MM/DD")	  // Test 1 - reverse date, normal parser	$vT_testText:="2017-02-24"	$vD_testDate:=Date($vT_testText)	If ($vD_testDate#$vD_NoDate)		ALERT("Test Failed: Should not be able to parse ["+$vT_testText+"]")	End if 		DBG_Log ("Test reverse date parser with reverse date YYYY/MM/DD")	$vD_testDate:=ReverseDateStringToDate ($vT_testText)	If ($vD_testDate=$vD_NoDate)		ALERT("Failed to convert reverse date string ["+$vT_testText+"]")	End if End if If ($vB_testArrays)	DBG_Log ("--------------------------------------------------------")	  //ARRAY TEXT($aT_testArray;0;2)	  //C_LONGINT($vL_index)		  //For ($vL_index;1;10)	  //$vL_testIndex:=Size of array($aT_testArray)+1	  //INSERT IN ARRAY($aT_testArray;$vl_testIndex)		  //DBG_Log ("$vL_testIndex = ["+String($vL_testIndex)+"]")	  //$vL_testLong:=RandomRange (10)	  //DBG_Log ("Test random: 1st number 0<=x<=10 ["+String($vL_testLong)+"]")	  //$aT_testArray{$vL_testIndex}{1}:=String($vL_testLong)		  //DBG_Log ("$vL_testIndex = ["+String($vL_testIndex)+"]")	  //$vL_testLong:=RandomRange (10;20)	  //DBG_Log ("Test random: 1st number 10<=x<=20 ["+String($vL_testLong)+"]")	  //$aT_testArray{$vL_testIndex}{2}:=String($vL_testLong)	  //End for 		  //For ($vL_index;1;10)	  //If ($aT_testArray{$vL_index}=String(4))	  //DBG_Log ("4 found")	  //End if 	  //End for		  // Declare array	ARRAY LONGINT($aL_testArray;0)	C_LONGINT($vL_testArraySize;$vL_index;$vL_expectedSize)		$vL_expectedSize:=0	$vL_testArraySize:=Size of array($aL_testArray)		DBG_Log ("After construction size 0, reported size = ["+String($vL_testArraySize)+"]")	If ($vL_testArraySize#0)		DBG_Log ("test array size is not 0")	End if 		  // add some stuff using append	C_LONGINT($vL_numToAdd)		$vL_numToAdd:=RandomRange (1;10)	$vL_expectedSize:=$vL_numToAdd		For ($vL_index;1;$vL_numToAdd)		APPEND TO ARRAY($aL_testArray;RandomRange (1;21)-11)		DBG_Log ("("+String($vL_index;"##")+"/"+String($vL_expectedSize;"##")+") added new value ["+String($aL_testArray{$vL_index})+"]")	End for 		$vL_testArraySize:=Size of array($aL_testArray)	DBG_Log ("After appending "+String($vL_numToAdd)+" items, reported size = ["+String($vL_testArraySize)+"]")	If ($vL_testArraySize#$vL_expectedSize)		DBG_Log ("test array size is incorrect ["+String($vL_testArraySize)+" != "+String($vL_numToAdd)+"]")	End if 		  // resize up and check sizes	$vL_numToAdd:=(RandomRange (0;10)+5)	C_LONGINT($vL_oldSize)	$vL_oldSize:=$vL_expectedSize	$vL_expectedSize:=$vL_expectedSize+$vL_numToAdd		  // this should increase the size of the existing array	ARRAY LONGINT($aL_testArray;$vL_expectedSize)	DBG_Log ("Resize test array to size ["+String($vL_expectedSize)+"]")		For ($vL_index;1;$vL_numToAdd)		If ($vL_index>$vL_oldSize)			$aL_testArray{$vL_index}:=RandomRange (1;21)-11			DBG_Log ("("+String($vL_index;"##")+"/"+String($vL_expectedSize;"##")+") added new value ["+String($aL_testArray{$vL_index})+"]")		Else 			DBG_Log ("("+String($vL_index;"##")+"/"+String($vL_expectedSize;"##")+") existing value ["+String($aL_testArray{$vL_index})+"]")		End if 	End for 		$vL_testArraySize:=Size of array($aL_testArray)	DBG_Log ("After resizing to "+String($vL_expectedSize)+" items, reported size = ["+String($vL_testArraySize)+"]")	If ($vL_testArraySize#$vL_expectedSize)		DBG_Log ("test array size is incorrect ["+String($vL_testArraySize)+" != "+String($vL_numToAdd)+"]")	End if 		  // this should decrease the size of the existing array	$vL_expectedSize:=2	ARRAY LONGINT($aL_testArray;$vL_expectedSize)	$vL_oldSize:=$vL_testArraySize	$vL_numToAdd:=-($vL_oldSize-$vL_expectedSize)		DBG_Log ("Resize test array to size ["+String($vL_expectedSize)+"]")		For ($vL_index;1;$vL_expectedSize)		DBG_Log ("("+String($vL_index;"##")+"/"+String($vL_expectedSize;"##")+") found value ["+String($aL_testArray{$vL_index})+"]")	End for 		$vL_testArraySize:=Size of array($aL_testArray)	DBG_Log ("After resizing to "+String($vL_expectedSize)+" items, reported size = ["+String($vL_testArraySize)+"]")	If ($vL_testArraySize#$vL_expectedSize)		DBG_Log ("test array size is incorrect ["+String($vL_testArraySize)+" != "+String($vL_numToAdd)+"]")	End if End if If ($vB_testObjectJSON)	DBG_Log ("--------------------------------------------------------")	DBG_Log ("Object/JSON tests")		C_TEXT($vT_testJSON)	$vT_testJSON:="{ \"extractedConstants\": ["	$vT_testJSON:=$vT_testJSON+" {\"groupname\": \"C1\",\"Constants\": ["	$vT_testJSON:=$vT_testJSON+" {\"name\": \"test1\",\"value\": \"v1\"},"	$vT_testJSON:=$vT_testJSON+" {\"name\": \"test2\",\"value\": \"v2\"},"	$vT_testJSON:=$vT_testJSON+" {\"name\": \"test3\",\"value\": \"v3\"} ] },"	$vT_testJSON:=$vT_testJSON+" {\"groupname\": \"C2\",\"Constants\": ["	$vT_testJSON:=$vT_testJSON+" {\"name\": \"test1\",\"value\": \"v4\"},"	$vT_testJSON:=$vT_testJSON+" {\"name\": \"test2\",\"value\": \"v5\"} ] }"	$vT_testJSON:=$vT_testJSON+" ] }"		DBG_Log ("Create object from JSON <<<"+$vT_testJSON+">>>")	C_OBJECT($vO_testObj1)	$vO_testObj1:=JSON Parse($vT_testJSON)		ARRAY OBJECT($aO_extractedData;0)	OB GET ARRAY($vO_testObj1;"extractedConstants";$aO_extractedData)		C_LONGINT($vL_index)		ARRAY TEXT($aT_c1Names;0)	ARRAY TEXT($aT_c1Values;0)	ARRAY TEXT($aT_c2Names;0)	ARRAY TEXT($aT_c2Values;0)	C_POINTER($vP_aT_names;$vP_aT_values)	C_BOOLEAN($vB_continue)		For ($vL_index;1;Size of array($aO_extractedData))		DBG_Log ("["+String($vL_index)+"/"+String(Size of array($aO_extractedData))+"] Procecss Object <<<"+JSON Stringify($aO_extractedData{$vL_index})+">>>")				$vB_continue:=True				  // get the group name		C_TEXT($vT_groupName)		$vT_groupName:=OB Get($aO_extractedData{$vL_index};"groupname")		DBG_Log ("Found \"groupname\": \""+$vT_groupName+"\"")				Case of 			: ($vT_groupName="C1")				$vP_aT_names:=->$aT_c1Names				$vP_aT_values:=->$aT_c1Values							: ($vT_groupName="C2")				$vP_aT_names:=->$aT_c2Names				$vP_aT_values:=->$aT_c2Values							Else 				DBG_Log ("Unknown group ["+$vT_groupName+"] - skipping")				$vB_continue:=False						End case 				If ($vB_continue)			  // now the actual values			ARRAY OBJECT($aO_c1;0)						If (Not(OB Is defined($aO_extractedData{$vL_index};"Constants")))				DBG_Log ("Constants are not defined for group ["+$vT_groupName+"]")			Else 				OB GET ARRAY($aO_extractedData{$vL_index};"Constants";$aO_c1)								  // should now have an array ov name value objects				C_LONGINT($vL_valIndex)				For ($vL_valIndex;1;Size of array($aO_c1))					DBG_Log ("["+String($vL_valIndex)+"/"+String(Size of array($aO_c1))+"] Process entry ["+JSON Stringify($aO_c1{$vL_valIndex})+"]")					Case of 						: (Not(OB Is defined($aO_c1{$vL_valIndex};"name")))							DBG_Log ("No name defined")													: (Not(OB Is defined($aO_c1{$vL_valIndex};"value")))							DBG_Log ("No value defined")													Else 							APPEND TO ARRAY($vP_aT_names->;OB Get($aO_c1{$vL_valIndex};"name"))							APPEND TO ARRAY($vP_aT_values->;OB Get($aO_c1{$vL_valIndex};"value"))												End case 									End for 							End if 					End if 			End for 		  // second test	  // scarey string	DBG_Log ("todo")End if   // weird number handling  //$vT_foom:="42"  //C_LONGINT($vL_woop)  //$vL_woop:=num($vT_foom)  // $vL_woop=42  //$vT_foom:="42.1"  //$vL_woop:=Num($vT_foom)  // $vL_woop=42  //$vL_woop:=int(num($vT_foom))  // $vL_woop=42If ($vB_testEventTypeStrings)	DBG_Log ("--------------------------------------------------------")	DBG_Log ("Test Event and Type strings")		DBG_Log (String_GetEventString (On Load))	DBG_Log (String_GetEventString (On Clicked))	DBG_Log (String_GetEventString (On Double Clicked))	DBG_Log (String_GetEventString (On Close Box))		CREATE SET([Attendees];"dbg_cur_attendees")	CREATE SET([Meeting];"dbg_cur_meeting")	CREATE SET([Employee];"dbg_cur_employee")	ALL RECORDS([Employee])	ALL RECORDS([Meeting])	ALL RECORDS([Attendees])		QUERY([Employee];[Employee]FirstName="Thor")	QUERY([Meeting];[Meeting]Emp_ID_Fk=[Employee]ID)		USE SET("dbg_cur_employee")	USE SET("dbg_cur_meeting")	USE SET("dbg_cur_attendees")		C_BLOB($vX_dummy)	C_TEXT($vT_dummy)	BLOB TO VARIABLE($vX_dummy;$vT_dummy)		If ($vT_dummy#"")		DBG_Log ("Conversion gave a stupid result")	End if End if If ($vB_testTimestamps)	DBG_Log ("--------------------------------------------------------")	DBG_Log ("Date time stamp tests")		C_DATE($vD_curDate)	$vD_curDate:=Current date	C_TIME($vT_curTime)	$vT_curTime:=Current time		C_TEXT($vT_dtString)	$vT_dtString:=String(Year of($vD_curDate);"####0000")	$vT_dtString:=$vT_dtString+String(Month of($vD_curDate);"##00")	$vT_dtString:=$vT_dtString+String(Day of($vD_curDate);"##00")		DBG_Log ("Cur date stamp = ["+$vT_dtString+"]")	C_LONGINT($vL_secondsMaybe)	$vL_secondsMaybe:=Int($vT_curTime)		C_DATE($vD_fromString)	$vD_fromString:=Date("19 April 2017")End if If ($vB_testPaths)	DBG_Log ("--------------------------------------------------------")	DBG_Log ("Test paths")		C_TEXT($vT_path1)	$vT_path1:=Util_BuildPath 	If ($vT_path1#"")		DBG_Log ("Error: expected empty path")	End if 		  // Windows path - don't change?	$vT_path1:=Util_BuildPath ("c:\\Fake folder\\home")	If ($vT_path1#"c:\\Fake folder\\home")		DBG_Log ("Error: expected same path back")	End if 		$vT_path1:=Util_BuildPath ($vT_path1;"username";"foom";"test")	If ($vT_path1#"c:\\Fake folder\\home\\username\\foom\\test")		DBG_Log ("Error: Generated path does not match expected result")	End if 		$vT_path1:=Util_BuildPath ("http://www.frooogle.com.zb";"dodgy";"scam";"page";"/")	If ($vT_path1#"http://www.frooogle.com.zb/dodgy/scam/page/")		DBG_Log ("Error: Generated path does not match expected result")	End if End if DBG_Log ("--------------------------------------------------------")DBG_Log ("Test done")DBG_EndMethod 
+  //%attributes = {"lang":"en"} comment added and reserved by 4D.
+  //Project Method: DBG_TestMethod
+  //
+  //   Parameter        Type             Description
+  //
+  //Description:
+  //
+  //Date        Init  Description
+  //===============================================================================
+  //02/05/2017   AH   Initial version.
+  //19/05/2017   AH   Rewrite out of form.
+
+DBG_BeginMethod (Current method name)
+
+C_BOOLEAN($vB_testArrays;$vB_testDateParser;$vB_testObjectJSON)
+C_BOOLEAN($vB_testEventTypeStrings;$vB_testTimestamps;$vB_testPaths)
+
+$vB_testArrays:=True
+$vB_testDateParser:=True
+$vB_testObjectJSON:=True
+$vB_testEventTypeStrings:=False
+$vB_testTimestamps:=False
+$vB_testPaths:=True
+
+If ($vB_testDateParser)
+	C_DATE($vD_testDate;$vD_NoDate)
+	C_TEXT($vT_testText)
+	C_BOOLEAN($vB_testBool)
+	C_LONGINT($vL_testLong;$vl_testIndex)
+	
+	$vD_NoDate:=!00-00-00!
+	DBG_Log ("--------------------------------------------------------")
+	DBG_Log ("Test normal date parser with reverse date YYYY/MM/DD")
+	  // Test 1 - reverse date, normal parser
+	$vT_testText:="2017-02-24"
+	$vD_testDate:=Date($vT_testText)
+	If ($vD_testDate#$vD_NoDate)
+		ALERT("Test Failed: Should not be able to parse ["+$vT_testText+"]")
+	End if 
+	
+	DBG_Log ("Test reverse date parser with reverse date YYYY/MM/DD")
+	$vD_testDate:=ReverseDateStringToDate ($vT_testText)
+	If ($vD_testDate=$vD_NoDate)
+		ALERT("Failed to convert reverse date string ["+$vT_testText+"]")
+	End if 
+End if 
+
+If ($vB_testArrays)
+	DBG_Log ("--------------------------------------------------------")
+	  //ARRAY TEXT($aT_testArray;0;2)
+	  //C_LONGINT($vL_index)
+	
+	  //For ($vL_index;1;10)
+	  //$vL_testIndex:=Size of array($aT_testArray)+1
+	  //INSERT IN ARRAY($aT_testArray;$vl_testIndex)
+	
+	  //DBG_Log ("$vL_testIndex = ["+String($vL_testIndex)+"]")
+	  //$vL_testLong:=RandomRange (10)
+	  //DBG_Log ("Test random: 1st number 0<=x<=10 ["+String($vL_testLong)+"]")
+	  //$aT_testArray{$vL_testIndex}{1}:=String($vL_testLong)
+	
+	  //DBG_Log ("$vL_testIndex = ["+String($vL_testIndex)+"]")
+	  //$vL_testLong:=RandomRange (10;20)
+	  //DBG_Log ("Test random: 1st number 10<=x<=20 ["+String($vL_testLong)+"]")
+	  //$aT_testArray{$vL_testIndex}{2}:=String($vL_testLong)
+	  //End for 
+	
+	  //For ($vL_index;1;10)
+	  //If ($aT_testArray{$vL_index}=String(4))
+	  //DBG_Log ("4 found")
+	  //End if 
+	  //End for
+	
+	  // Declare array
+	ARRAY LONGINT($aL_testArray;0)
+	C_LONGINT($vL_testArraySize;$vL_index;$vL_expectedSize)
+	
+	$vL_expectedSize:=0
+	$vL_testArraySize:=Size of array($aL_testArray)
+	
+	DBG_Log ("After construction size 0, reported size = ["+String($vL_testArraySize)+"]")
+	If ($vL_testArraySize#0)
+		DBG_Log ("test array size is not 0")
+	End if 
+	
+	  // add some stuff using append
+	C_LONGINT($vL_numToAdd)
+	
+	$vL_numToAdd:=RandomRange (1;10)
+	$vL_expectedSize:=$vL_numToAdd
+	
+	For ($vL_index;1;$vL_numToAdd)
+		APPEND TO ARRAY($aL_testArray;RandomRange (1;21)-11)
+		DBG_Log ("("+String($vL_index;"##")+"/"+String($vL_expectedSize;"##")+") added new value ["+String($aL_testArray{$vL_index})+"]")
+	End for 
+	
+	$vL_testArraySize:=Size of array($aL_testArray)
+	DBG_Log ("After appending "+String($vL_numToAdd)+" items, reported size = ["+String($vL_testArraySize)+"]")
+	If ($vL_testArraySize#$vL_expectedSize)
+		DBG_Log ("test array size is incorrect ["+String($vL_testArraySize)+" != "+String($vL_numToAdd)+"]")
+	End if 
+	
+	  // resize up and check sizes
+	$vL_numToAdd:=(RandomRange (0;10)+5)
+	C_LONGINT($vL_oldSize)
+	$vL_oldSize:=$vL_expectedSize
+	$vL_expectedSize:=$vL_expectedSize+$vL_numToAdd
+	
+	  // this should increase the size of the existing array
+	ARRAY LONGINT($aL_testArray;$vL_expectedSize)
+	DBG_Log ("Resize test array to size ["+String($vL_expectedSize)+"]")
+	
+	For ($vL_index;1;$vL_numToAdd)
+		If ($vL_index>$vL_oldSize)
+			$aL_testArray{$vL_index}:=RandomRange (1;21)-11
+			DBG_Log ("("+String($vL_index;"##")+"/"+String($vL_expectedSize;"##")+") added new value ["+String($aL_testArray{$vL_index})+"]")
+		Else 
+			DBG_Log ("("+String($vL_index;"##")+"/"+String($vL_expectedSize;"##")+") existing value ["+String($aL_testArray{$vL_index})+"]")
+		End if 
+	End for 
+	
+	$vL_testArraySize:=Size of array($aL_testArray)
+	DBG_Log ("After resizing to "+String($vL_expectedSize)+" items, reported size = ["+String($vL_testArraySize)+"]")
+	If ($vL_testArraySize#$vL_expectedSize)
+		DBG_Log ("test array size is incorrect ["+String($vL_testArraySize)+" != "+String($vL_numToAdd)+"]")
+	End if 
+	
+	  // this should decrease the size of the existing array
+	$vL_expectedSize:=2
+	ARRAY LONGINT($aL_testArray;$vL_expectedSize)
+	$vL_oldSize:=$vL_testArraySize
+	$vL_numToAdd:=-($vL_oldSize-$vL_expectedSize)
+	
+	DBG_Log ("Resize test array to size ["+String($vL_expectedSize)+"]")
+	
+	For ($vL_index;1;$vL_expectedSize)
+		DBG_Log ("("+String($vL_index;"##")+"/"+String($vL_expectedSize;"##")+") found value ["+String($aL_testArray{$vL_index})+"]")
+	End for 
+	
+	$vL_testArraySize:=Size of array($aL_testArray)
+	DBG_Log ("After resizing to "+String($vL_expectedSize)+" items, reported size = ["+String($vL_testArraySize)+"]")
+	If ($vL_testArraySize#$vL_expectedSize)
+		DBG_Log ("test array size is incorrect ["+String($vL_testArraySize)+" != "+String($vL_numToAdd)+"]")
+	End if 
+End if 
+
+If ($vB_testObjectJSON)
+	DBG_Log ("--------------------------------------------------------")
+	DBG_Log ("Object/JSON tests")
+	
+	C_TEXT($vT_testJSON)
+	$vT_testJSON:="{ \"extractedConstants\": ["
+	$vT_testJSON:=$vT_testJSON+" {\"groupname\": \"C1\",\"Constants\": ["
+	$vT_testJSON:=$vT_testJSON+" {\"name\": \"test1\",\"value\": \"v1\"},"
+	$vT_testJSON:=$vT_testJSON+" {\"name\": \"test2\",\"value\": \"v2\"},"
+	$vT_testJSON:=$vT_testJSON+" {\"name\": \"test3\",\"value\": \"v3\"} ] },"
+	$vT_testJSON:=$vT_testJSON+" {\"groupname\": \"C2\",\"Constants\": ["
+	$vT_testJSON:=$vT_testJSON+" {\"name\": \"test1\",\"value\": \"v4\"},"
+	$vT_testJSON:=$vT_testJSON+" {\"name\": \"test2\",\"value\": \"v5\"} ] }"
+	$vT_testJSON:=$vT_testJSON+" ] }"
+	
+	DBG_Log ("Create object from JSON <<<"+$vT_testJSON+">>>")
+	C_OBJECT($vO_testObj1)
+	$vO_testObj1:=JSON Parse($vT_testJSON)
+	
+	ARRAY OBJECT($aO_extractedData;0)
+	OB GET ARRAY($vO_testObj1;"extractedConstants";$aO_extractedData)
+	
+	C_LONGINT($vL_index)
+	
+	ARRAY TEXT($aT_c1Names;0)
+	ARRAY TEXT($aT_c1Values;0)
+	ARRAY TEXT($aT_c2Names;0)
+	ARRAY TEXT($aT_c2Values;0)
+	C_POINTER($vP_aT_names;$vP_aT_values)
+	C_BOOLEAN($vB_continue)
+	
+	For ($vL_index;1;Size of array($aO_extractedData))
+		DBG_Log ("["+String($vL_index)+"/"+String(Size of array($aO_extractedData))+"] Procecss Object <<<"+JSON Stringify($aO_extractedData{$vL_index})+">>>")
+		
+		$vB_continue:=True
+		
+		  // get the group name
+		C_TEXT($vT_groupName)
+		$vT_groupName:=OB Get($aO_extractedData{$vL_index};"groupname")
+		DBG_Log ("Found \"groupname\": \""+$vT_groupName+"\"")
+		
+		Case of 
+			: ($vT_groupName="C1")
+				$vP_aT_names:=->$aT_c1Names
+				$vP_aT_values:=->$aT_c1Values
+				
+			: ($vT_groupName="C2")
+				$vP_aT_names:=->$aT_c2Names
+				$vP_aT_values:=->$aT_c2Values
+				
+			Else 
+				DBG_Log ("Unknown group ["+$vT_groupName+"] - skipping")
+				$vB_continue:=False
+				
+		End case 
+		
+		If ($vB_continue)
+			  // now the actual values
+			ARRAY OBJECT($aO_c1;0)
+			
+			If (Not(OB Is defined($aO_extractedData{$vL_index};"Constants")))
+				DBG_Log ("Constants are not defined for group ["+$vT_groupName+"]")
+			Else 
+				OB GET ARRAY($aO_extractedData{$vL_index};"Constants";$aO_c1)
+				
+				  // should now have an array ov name value objects
+				C_LONGINT($vL_valIndex)
+				For ($vL_valIndex;1;Size of array($aO_c1))
+					DBG_Log ("["+String($vL_valIndex)+"/"+String(Size of array($aO_c1))+"] Process entry ["+JSON Stringify($aO_c1{$vL_valIndex})+"]")
+					Case of 
+						: (Not(OB Is defined($aO_c1{$vL_valIndex};"name")))
+							DBG_Log ("No name defined")
+							
+						: (Not(OB Is defined($aO_c1{$vL_valIndex};"value")))
+							DBG_Log ("No value defined")
+							
+						Else 
+							APPEND TO ARRAY($vP_aT_names->;OB Get($aO_c1{$vL_valIndex};"name"))
+							APPEND TO ARRAY($vP_aT_values->;OB Get($aO_c1{$vL_valIndex};"value"))
+							
+					End case 
+					
+				End for 
+				
+			End if 
+			
+		End if 
+		
+	End for 
+	
+	  // second test
+	  // scarey string
+	DBG_Log ("todo")
+End if 
+
+  // weird number handling
+  //$vT_foom:="42"
+  //C_LONGINT($vL_woop)
+  //$vL_woop:=num($vT_foom)  // $vL_woop=42
+
+  //$vT_foom:="42.1"
+  //$vL_woop:=Num($vT_foom)  // $vL_woop=42
+  //$vL_woop:=int(num($vT_foom))  // $vL_woop=42
+
+If ($vB_testEventTypeStrings)
+	DBG_Log ("--------------------------------------------------------")
+	DBG_Log ("Test Event and Type strings")
+	
+	DBG_Log (String_GetEventString (On Load))
+	DBG_Log (String_GetEventString (On Clicked))
+	DBG_Log (String_GetEventString (On Double Clicked))
+	DBG_Log (String_GetEventString (On Close Box))
+	
+	CREATE SET([Attendees];"dbg_cur_attendees")
+	CREATE SET([Meeting];"dbg_cur_meeting")
+	CREATE SET([Employee];"dbg_cur_employee")
+	ALL RECORDS([Employee])
+	ALL RECORDS([Meeting])
+	ALL RECORDS([Attendees])
+	
+	QUERY([Employee];[Employee]FirstName="Thor")
+	QUERY([Meeting];[Meeting]Emp_ID_Fk=[Employee]ID)
+	
+	USE SET("dbg_cur_employee")
+	USE SET("dbg_cur_meeting")
+	USE SET("dbg_cur_attendees")
+	
+	C_BLOB($vX_dummy)
+	C_TEXT($vT_dummy)
+	BLOB TO VARIABLE($vX_dummy;$vT_dummy)
+	
+	If ($vT_dummy#"")
+		DBG_Log ("Conversion gave a stupid result")
+	End if 
+End if 
+
+If ($vB_testTimestamps)
+	DBG_Log ("--------------------------------------------------------")
+	DBG_Log ("Date time stamp tests")
+	
+	C_DATE($vD_curDate)
+	$vD_curDate:=Current date
+	C_TIME($vT_curTime)
+	$vT_curTime:=Current time
+	
+	C_TEXT($vT_dtString)
+	$vT_dtString:=String(Year of($vD_curDate);"####0000")
+	$vT_dtString:=$vT_dtString+String(Month of($vD_curDate);"##00")
+	$vT_dtString:=$vT_dtString+String(Day of($vD_curDate);"##00")
+	
+	DBG_Log ("Cur date stamp = ["+$vT_dtString+"]")
+	C_LONGINT($vL_secondsMaybe)
+	$vL_secondsMaybe:=Int($vT_curTime)
+	
+	C_DATE($vD_fromString)
+	$vD_fromString:=Date("19 April 2017")
+End if 
+
+If ($vB_testPaths)
+	DBG_Log ("--------------------------------------------------------")
+	DBG_Log ("Test paths")
+	
+	C_TEXT($vT_path1)
+	$vT_path1:=Util_BuildPath 
+	If ($vT_path1#"")
+		DBG_Log ("Error: expected empty path")
+	End if 
+	
+	  // Windows path - don't change?
+	$vT_path1:=Util_BuildPath ("c:\\Fake folder\\home")
+	If ($vT_path1#"c:\\Fake folder\\home")
+		DBG_Log ("Error: expected same path back")
+	End if 
+	
+	$vT_path1:=Util_BuildPath ($vT_path1;"username";"foom";"test")
+	If ($vT_path1#"c:\\Fake folder\\home\\username\\foom\\test")
+		DBG_Log ("Error: Generated path does not match expected result")
+	End if 
+	
+	$vT_path1:=Util_BuildPath ("http://www.frooogle.com.zb";"dodgy";"scam";"page";"/")
+	If ($vT_path1#"http://www.frooogle.com.zb/dodgy/scam/page/")
+		DBG_Log ("Error: Generated path does not match expected result")
+	End if 
+End if 
+
+DBG_Log ("--------------------------------------------------------")
+DBG_Log ("Test done")
+
+DBG_EndMethod 
