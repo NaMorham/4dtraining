@@ -6,7 +6,7 @@
   //    vT_result       Text       ->    Uppercase(Surname),firstname,mobile
   //
   //Description:
-  //  
+  //
   //
   //Date        Init  Description
   //===============================================================================

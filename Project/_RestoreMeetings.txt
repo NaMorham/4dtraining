@@ -6,7 +6,7 @@
   //Description:
   //   Assumes that some kind of check has been performed before calling this
   // function.  This will delete all meetings from the database
-  //  
+  //
   //
   //Date        Init  Description
   //===============================================================================

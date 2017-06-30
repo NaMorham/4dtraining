@@ -4,7 +4,7 @@
   //   Parameter        Type             Description
   //
   //Description:
-  //  
+  //
   //
   //Date        Init  Description
   //===============================================================================
@@ -16,7 +16,7 @@ $vL_Event:=Form event
 Case of
 	: ($vL_Event=On Load)
 		DBG_Log ("Form ["+String(Current process)+":test-input].StartDate -> On Load")
-	
+
 		C_DATE($vD_sDate)
 		$vD_sDate:=Current date
 		If (Records in selection([Employee])#0)
@@ -30,11 +30,11 @@ Case of
 			DBG_Log ("No record selected")
 		End if
 		Self->:=$vD_sDate
-	
+
 	: ($vL_Event=On Clicked)
 		DBG_Log ("Form ["+String(Current process)+":test-input].StartDate -> On Clicked")
-	
+
 	: ($vL_Event=On After Edit)
 		DBG_Log ("Form ["+String(Current process)+":test-input].StartDate -> On After Edit")
-	
+
 End case

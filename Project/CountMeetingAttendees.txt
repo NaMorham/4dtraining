@@ -6,7 +6,7 @@
   //    $vL_NumAttendees    LongInt   <-     The number of employees attending the meeting
   //
   //Description:
-  //  
+  //
   //
   //Date        Init  Description
   //===============================================================================

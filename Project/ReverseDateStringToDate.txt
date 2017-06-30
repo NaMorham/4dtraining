@@ -6,7 +6,7 @@
   //   vD_result        Date    ->       Converted date or 00/00/0000
   //
   //Description:
-  //  
+  //
   //
   //Date        Init  Description
   //===============================================================================

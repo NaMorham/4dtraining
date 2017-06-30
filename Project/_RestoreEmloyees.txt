@@ -31,7 +31,7 @@ If (OK=1)
 		$vO_thorPic:=[Employee]ProfilePicture
 		$vB_hasPic:=True
 		TRUNCATE TABLE([Employee])
-	
+
 		  //If (OK=1)
 		  //VALIDATE TRANSACTION
 		  //DBG_Log ("Transaction validated")

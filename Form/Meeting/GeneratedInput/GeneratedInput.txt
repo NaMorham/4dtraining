@@ -4,7 +4,7 @@
   //   Parameter        Type             Description
   //
   //Description:
-  //  
+  //
   //
   //Date        Init  Description
   //===============================================================================
@@ -21,7 +21,7 @@ Case of
 		C_BOOLEAN($vB_saveOK)
 		$vB_saveOK:=((OK=1) & ([Meeting]Emp_ID_Fk#"") & ([Meeting]Topic#"") & ([Meeting]StartDate#!00-00-00!) & ([Meeting]startTime#?00:00:00?))
 		DBG_Log ("vB_saveOK - "+String_BoolEnableDisable ($vB_saveOK))
-	
+
 		If ($vB_saveOK)
 			_o_ENABLE BUTTON(*;"validate_Btn")
 			_o_ENABLE BUTTON(*;"delete_Btn")
@@ -29,7 +29,7 @@ Case of
 			_o_DISABLE BUTTON(*;"validate_Btn")
 			_o_DISABLE BUTTON(*;"delete_Btn")
 		End if
-	
+
 End case
 
 

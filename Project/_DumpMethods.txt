@@ -4,7 +4,7 @@
   //   Parameter        Type             Description
   //
   //Description: Exports all methods to files.  Include all methods in Forms.
-  //  
+  //
   //
   //Date        Init  Description
   //===============================================================================
@@ -62,15 +62,15 @@ If (Test path name($vT_BaseDir)=Is a folder)
 	If (OK=1)
 		CLOSE DOCUMENT($vH_Doc)
 		MCSU_FILE_TextToFile ("Group"+<>TB+"Table"+<>TB+"Form"+<>TB+"Object"+<>LF;$vT_BaseDir+"Log.csv")
-	
+
 		For ($ii;1;Size of array($aT_MethodPaths))
 			MCSU_DLG_Message ("Exporting methods for";$aT_MethodPaths{$ii})
 			METHOD RESOLVE PATH($aT_MethodPaths{$ii};$vL_MethodType;$vP_Table;$vT_ObjectName;$vT_FormObjectName)
 			METHOD GET CODE($aT_MethodPaths{$ii};$vT_MethodText)
-		
+
 			$vB_Continue:=True
 			$vT_Filename:=""
-		
+
 			Case of
 				: ($vL_MethodType=1)
 					$vT_GroupDir:="Project"
@@ -83,7 +83,7 @@ If (Test path name($vT_BaseDir)=Is a folder)
 				: ($vL_MethodType=16)
 					$vT_GroupDir:="Form"
 			End case
-		
+
 			$vT_Str:=$vT_Str+$vT_GroupDir
 			If (Nil($vP_Table))
 				$vT_Str:=$vT_Str+<>TB+"NoTable"
@@ -91,28 +91,28 @@ If (Test path name($vT_BaseDir)=Is a folder)
 				$vT_Str:=$vT_Str+<>TB+Table name($vP_Table)
 			End if
 			$vT_Str:=$vT_Str+<>TB+$vT_ObjectName+<>TB+$vT_FormObjectName+<>LF
-		
+
 			  // Create the high level folder.
 			If (Test path name($vT_BaseDir+$vT_GroupDir)#Is a folder)
 				CREATE FOLDER($vT_BaseDir+$vT_GroupDir)
 				$vB_Continue:=(OK=1)
 			End if
-		
+
 			  // Create any intermediate folders.
 			If ($vB_Continue)
-			
+
 				$vT_Filename:=$vT_BaseDir+$vT_GroupDir+Folder separator
 				Case of
 						  // These ones have unique names.
 					: (($vT_GroupDir="Database") | ($vT_GroupDir="Project"))
 						$vT_Filename:=$vT_Filename+$vT_ObjectName+".txt"
-					
+
 						  // Trigger methods can be called by their table name.
 					: ($vT_GroupDir="Trigger")
 						If (Not(Nil($vP_Table)))
 							$vT_Filename:=$vT_Filename+Table name($vP_Table)+".txt"
 						End if
-					
+
 					Else
 						  // Forms!  Need to create [Table] subfolder.
 						If (Not(Nil($vP_Table)))
@@ -120,22 +120,22 @@ If (Test path name($vT_BaseDir)=Is a folder)
 						Else
 							$vT_Filename:=$vT_Filename+"_Project"+Folder separator
 						End if
-					
+
 						If (Test path name($vT_Filename)#Is a folder)
 							CREATE FOLDER($vT_Filename)
 							$vB_Continue:=(OK=1)
 						End if
-					
+
 						  // Forms!  Need to create [Form] subfolder.
 						If ($vB_Continue)
 							$vT_Filename:=$vT_Filename+$vT_ObjectName+Folder separator
-						
+
 							If (Test path name($vT_Filename)#Is a folder)
 								CREATE FOLDER($vT_Filename)
 								$vB_Continue:=(OK=1)
 							End if
 						End if
-					
+
 						  // Now create the method file.  It might be at the form level...
 						If ($vB_Continue)
 							If (Length($vT_FormObjectName)>0)
@@ -145,19 +145,19 @@ If (Test path name($vT_BaseDir)=Is a folder)
 							End if
 						End if
 				End case
-			
+
 			End if
-		
+
 			If ($vB_Continue)
 				If (Position(".txt";$vT_Filename)>0)
 					MCSU_FILE_TextToFile ($vT_MethodText;$vT_Filename)
 				End if
 			End if
-		
+
 			  // test.
 			MCSU_DLG_Message
 		End for
-	
+
 		MCSU_FILE_TextToFile ($vT_Str;$vT_BaseDir+"Log.csv")
 		MCSU_WRAP_ALERT (Current method name+" complete")
 	Else

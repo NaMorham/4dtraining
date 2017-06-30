@@ -8,7 +8,7 @@
   //
   //Description:
   //    Check if a given string value starts with the specified prefix
-  //  
+  //
   //
   //Date        Init  Description
   //===============================================================================

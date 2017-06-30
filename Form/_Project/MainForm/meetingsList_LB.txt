@@ -4,7 +4,7 @@
   //   Parameter        Type             Description
   //
   //Description:
-  //  
+  //
   //
   //Date        Init  Description
   //===============================================================================
@@ -24,14 +24,14 @@ Case of
 		DBG_Log ("Got selection of record number ["+String(Record number([Meeting]))+"/"+\
 			String(Records in selection([Meeting]))+"]")
 		DBG_Log ("Meeting ID = ["+[Meeting]ID+"]")
-	
+
 		If ([Meeting]ID#"")
 			$vT_meetingUUID:=[Meeting]ID
 		End if
-	
+
 	: ($vL_formEvent=On Clicked)
 		DBG_Log ("On click in list box event")
-	
+
 End case
 
 DBG_EndMethod

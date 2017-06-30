@@ -41,7 +41,7 @@ Form	Meeting	MeetingDetail
 Form	Meeting	MeetingDetail	inputConvenors_PU
 Form	Meeting	MeetingDetail	mtgRecNum_Lbl
 Form	TestStylesheet	Input	vRecNum
-Trigger	Employee	
+Trigger	Employee
 Project	NoTable	ATND_PopulateArrays
 Project	NoTable	Bool_isEmployed
 Project	NoTable	Bool_isManager

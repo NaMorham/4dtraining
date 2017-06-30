@@ -4,7 +4,7 @@
   //   Parameter        Type             Description
   //
   //Description:
-  //  
+  //
   //
   //Date        Init  Description
   //===============================================================================
@@ -70,21 +70,21 @@ If ($vL_numInSelection>=1)
 		APPEND TO ARRAY(aT_emailCol;[Employee]Email)
 		APPEND TO ARRAY(aT_mobileCol;[Employee]Mobile)
 		APPEND TO ARRAY(aD_startedCol;[Employee]StartDate)
-	
+
 		If (([Employee]StartDate<=Current date) & (([Employee]EndDate=!00-00-00!) | ([Employee]EndDate>Current date)))
 			LISTBOX SET ROW COLOR($vP_employeesList->;$vL_listIndex;0x00FFFFFF)  // they are employed
 		Else
-		
+
 			If ([Employee]StartDate>Current date)
 				LISTBOX SET ROW COLOR($vP_employeesList->;$vL_listIndex;0x00AFAFAF)  // they have not started yet
-			
+
 			Else
 				LISTBOX SET ROW COLOR($vP_employeesList->;$vL_listIndex;0x00FFAFAF)  // or are no longer employed
-			
+
 			End if
-		
+
 		End if
-	
+
 		NEXT RECORD([Employee])
 		$vL_listIndex:=$vL_listIndex+1
 	End while
@@ -93,7 +93,7 @@ If ($vL_numInSelection>=1)
 	  // 4. Find currently selected user (if required)
 	If ($vT_selectedUUID#"")
 		  //    4.1. Set index value on all arrays
-	
+
 	End if
 Else
 	DBG_Log ("No employees in selection")

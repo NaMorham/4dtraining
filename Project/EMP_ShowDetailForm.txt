@@ -6,7 +6,7 @@
   //                                     create a new employee
   //
   //Description:
-  //  
+  //
   //
   //Date        Init  Description
   //===============================================================================
@@ -21,7 +21,7 @@ Case of
 	: (Count parameters<1)
 	: ($1="")
 		  // Do nothing - new employee
-	
+
 	Else
 		$vT_empID:=$1
 End case

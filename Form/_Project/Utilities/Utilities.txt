@@ -4,7 +4,7 @@
   //   Parameter        Type             Description
   //
   //Description:
-  //  
+  //
   //
   //Date        Init  Description
   //===============================================================================
@@ -18,32 +18,32 @@ $vL_FormEvent:=Form event
 Case of
 	: ($vL_FormEvent=On Load)
 		DBG_Log ("Event = On Load")
-	
+
 		<>vL_WelcomeProcID:=Current process
-	
+
 		  // todo: display content sizes
-	
+
 	: ($vL_FormEvent=On Clicked)
 		DBG_Log ("Event = On Clicked")
-	
+
 		  // handle the buttons
 		Case of
 			: (vB_testFuncsBtn=1)
 				DBG_TestMethod
-			
+
 			: (vB_useSQLToolsBtn=1)
 				gSQL
-			
+
 			: (vB_importEmployeesBtn=1)
 				C_TEXT($vT_filename)
 				ARRAY TEXT($aT_filePaths;1)
-			
+
 				$vT_filename:=Select document("";"csv;txt;*";"Select an imput file";Alias selection;$aT_filePaths)
 				If (OK#1)
 					ALERT("Import cancelled")
 					$vB_continue:=False
 				End if
-			
+
 				If ($vB_continue)
 					C_LONGINT($vL_numRecords)
 					$vL_numRecords:=EMP_ImportFromCSV ($aT_filePaths{1})
@@ -54,46 +54,46 @@ Case of
 						ALL RECORDS([Employee])
 					End if
 				End if
-			
+
 			: (vB_restoreDataBtn=1)
 				If (MCSU_WRAP_CONFIRM ("Are you sure you want to restore the data?"))
 					  // TODO: Delete all hobbies from everyone except thor
 					TRUNCATE TABLE([Hobby])
-				
+
 					  // TODO: Delete all attendees
 					TRUNCATE TABLE([Attendees])
-				
+
 					  // Meetings
 					_RestoreMeetings
-				
+
 					  // Employees turn
 					_RestoreEmloyees
-				
+
 				End if
-			
+
 			: (vB_dumpMethodsBtn=1)
 				DBG_Log ("Dump all methods")
 				C_LONGINT($vL_dump_processID)
 				$vL_dump_processID:=New process("_DumpMethods";10*1024*1024;"Dump methods process")
 				DBG_Log ("All methods successfully written out")
-			
+
 		End case
-	
+
 	: ($vL_formEvent=On Close Box)
 		DBG_Log ("Event = On Close Box")
 		CANCEL
-	
+
 	: ($vL_FormEvent=On Outside Call)
 		DBG_Log ("Event = On Outside Call")
-	
+
 		If (<>vB_isQuitting)
 			DBG_Log ("External event - quit")
 			CANCEL
 		End if
-	
+
 	Else
 		DBG_Log ("Event = "+String($vL_formEvent))
-	
+
 End case
 
 DBG_EndMethod

@@ -8,7 +8,7 @@
   //Description:
   //  Returns True if an Employee has started (StartDate <= Current Date) and they
   // have not already left (EndDate == !00/00/0000! || EndDate > CurrentDate)
-  //  
+  //
   //
   //Date        Init  Description
   //===============================================================================

@@ -7,7 +7,7 @@
   //
   //Description:
   //  An employee is considered a manger if they are currently employed and flagged as a manager
-  //  
+  //
   //
   //Date        Init  Description
   //===============================================================================

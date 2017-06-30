@@ -4,7 +4,7 @@
   //   Parameter        Type             Description
   //
   //Description:
-  //  
+  //
   //
   //Date        Init  Description
   //===============================================================================
@@ -19,10 +19,10 @@ C_LONGINT($vL_processNum)
 Case of
 	: (($vL_tableNum<1) | ($vL_tableNum>Get last table number))
 		DBG_Log ("Table number out of range")
-	
+
 	: (Not(Is table number valid($vL_tableNum)))
 		DBG_Log ("Invalid table number")
-	
+
 	Else
 		C_POINTER($vP_table)
 		$vP_table:=Table($vL_tableNum)

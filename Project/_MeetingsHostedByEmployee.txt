@@ -4,7 +4,7 @@
   //   Parameter        Type             Description
   //
   //Description:
-  //  
+  //
   //
   //Date        Init  Description
   //===============================================================================
@@ -29,22 +29,22 @@ If (OK=1)
 	$vL_numMeetings:=Records in selection([Meeting])
 	If ($vL_numMeetings>0)
 		FIRST RECORD([Meeting])
-	
+
 		C_LONGINT($vL_meetingIndex)
-	
+
 		For ($vL_meetingIndex;1;$vL_numMeetings)
 			C_TEXT($vT_reportText)
 			$vT_reportText:=""
 			C_LONGINT($vL_tableNum)
 			$vL_tableNum:=Table(->[Meeting])
-		
+
 			DBG_Log ("Record ["+String($vL_meetingIndex)+"/"+String($vL_numMeetings)+"]")
 			  // Report on the meeting
 			C_LONGINT($vL_numFields)
 			$vL_numFields:=Get last field number($vL_tableNum)
-		
+
 			For ($vL_fieldIndex;1;$vL_numFields)
-			
+
 				If (Is field number valid($vL_tableNum;$vL_fieldIndex))
 					C_TEXT($vT_FieldName)
 					$vT_FieldName:=Field name($vL_tableNum;$vL_fieldIndex)
@@ -53,34 +53,34 @@ If (OK=1)
 					C_POINTER($vP_field)
 					$vP_field:=Field($vL_tableNum;$vL_fieldIndex)
 					GET FIELD PROPERTIES($vL_tableNum;$vL_fieldIndex;$vL_fieldType)
-				
+
 					Case of
 							  //$vT_reportText:=$vT_reportText+$vP_field->
-						
+
 						: (($vL_fieldType=Is text) | ($vL_fieldType=Is longint) | ($vL_fieldType=Is date) | ($vL_fieldType=Is time) | ($vL_fieldType=Is Boolean) | ($vL_fieldType=Is alpha field))
 							$vT_reportText:=$vT_reportText+String($vP_field->)
-						
+
 						: ($vL_fieldType=Is picture)
 							$vT_reportText:=$vT_reportText+"Picture"
-						
+
 						: ($vL_fieldType=Is undefined)
 							$vT_reportText:=$vT_reportText+"Undefined"
-						
+
 						Else
 							$vT_reportText:=$vT_reportText+"<<UNKNOWN>>"
 					End case
 					$vT_reportText:=$vT_reportText+"]"
 					DBG_Log ($vT_reportText)
-				
+
 				End if
-			
+
 			End for
 			NEXT RECORD([Meeting])
 		End for
-	
+
 	Else
 		DBG_Log ("No meetings found hosted by employee ["+$vT_employeeID+"]")
-	
+
 	End if
 
 Else

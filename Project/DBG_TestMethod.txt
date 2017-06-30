@@ -179,38 +179,38 @@ If ($vB_testObjectJSON)
 
 	For ($vL_index;1;Size of array($aO_extractedData))
 		DBG_Log ("["+String($vL_index)+"/"+String(Size of array($aO_extractedData))+"] Procecss Object <<<"+JSON Stringify($aO_extractedData{$vL_index})+">>>")
-	
+
 		$vB_continue:=True
-	
+
 		  // get the group name
 		C_TEXT($vT_groupName)
 		$vT_groupName:=OB Get($aO_extractedData{$vL_index};"groupname")
 		DBG_Log ("Found \"groupname\": \""+$vT_groupName+"\"")
-	
+
 		Case of
 			: ($vT_groupName="C1")
 				$vP_aT_names:=->$aT_c1Names
 				$vP_aT_values:=->$aT_c1Values
-			
+
 			: ($vT_groupName="C2")
 				$vP_aT_names:=->$aT_c2Names
 				$vP_aT_values:=->$aT_c2Values
-			
+
 			Else
 				DBG_Log ("Unknown group ["+$vT_groupName+"] - skipping")
 				$vB_continue:=False
-			
+
 		End case
-	
+
 		If ($vB_continue)
 			  // now the actual values
 			ARRAY OBJECT($aO_c1;0)
-		
+
 			If (Not(OB Is defined($aO_extractedData{$vL_index};"Constants")))
 				DBG_Log ("Constants are not defined for group ["+$vT_groupName+"]")
 			Else
 				OB GET ARRAY($aO_extractedData{$vL_index};"Constants";$aO_c1)
-			
+
 				  // should now have an array ov name value objects
 				C_LONGINT($vL_valIndex)
 				For ($vL_valIndex;1;Size of array($aO_c1))
@@ -218,10 +218,10 @@ If ($vB_testObjectJSON)
 					Case of
 						: (Not(OB Is defined($aO_c1{$vL_valIndex};"name")))
 							DBG_Log ("No name defined")
-						
+
 						: (Not(OB Is defined($aO_c1{$vL_valIndex};"value")))
 							DBG_Log ("No value defined")
-						
+
 						Else
 							APPEND TO ARRAY($vP_aT_names->;OB Get($aO_c1{$vL_valIndex};"name"))
 							APPEND TO ARRAY($vP_aT_values->;OB Get($aO_c1{$vL_valIndex};"value"))

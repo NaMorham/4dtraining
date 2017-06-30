@@ -7,7 +7,7 @@
   //    vL_result       Long Int   ->    Random number in the range (vL_Min <= result <= vL_Max)
   //
   //Description:
-  //  
+  //
   //
   //Date        Init  Description
   //===============================================================================
